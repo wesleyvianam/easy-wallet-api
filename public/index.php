@@ -14,7 +14,7 @@ $dotenv->safeLoad();
 /** @var \Psr\Container\ContainerInterface $diContainer */
 $diContainer = require_once __DIR__ . '/../config/dependencyInjection.php';
 
-$routes = require_once __DIR__ . "/../config/route.php";
+$routes = require_once __DIR__ . "/../config/routes.php";
 $pathInfo = $_SERVER['REQUEST_URI'] ?? '/';
 $httpMethod = $_SERVER['REQUEST_METHOD'];
 
