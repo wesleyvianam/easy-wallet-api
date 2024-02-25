@@ -3,7 +3,7 @@
 $builder = new \DI\ContainerBuilder();
 $builder->addDefinitions([
     PDO::class => function (): PDO {
-        $host = 'easy-wallet-db-1';
+        $host = 'easy-wallet-api-db-1';
         $port = '3306';
         $dbName = 'easywallet';
         $user = 'root';
