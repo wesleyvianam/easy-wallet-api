@@ -1,0 +1,39 @@
+version: "3.9"
+
+services:
+  nginx:
+    image: nginx:alpine
+    restart: unless-stopped
+    ports:
+      - "8989:80"
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/:/etc/nginx/conf.d/
+    networks:
+      - easywallet
+
+  php:
+    build: ./
+    expose:
+      - 9000
+    volumes:
+      - ./:/var/www/
+    networks:
+      - easywallet
+
+  db:
+    image: mariadb
+    volumes:
+      -    mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: mariadb
+      MYSQL_DATABASE: easywallet
+    networks:
+      - easywallet
+
+volumes:
+  mysql-data:
+
+networks:
+  easywallet:
+    driver: bridge
