@@ -1,3 +1,8 @@
+DROP TABLE transactions;
+DROP TABLE wallets;
+DROP TABLE users;
+
+
 CREATE TABLE users (
     id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     name VARCHAR(100) NOT NULL,
