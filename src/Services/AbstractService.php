@@ -16,6 +16,17 @@ abstract class AbstractService
 
     public function hydrateData(ServerRequestInterface $request): array
     {
-        return json_decode($request->getBody()->getContents(), true);
+        $data = json_decode($request->getBody()->getContents(), true);
+
+        if (isset($data['value'])) {
+            $data['value'] = $this->monetaryFormat($data['value']);
+        }
+
+        return $data;
+    }
+
+    public function monetaryFormat(string $value): int
+    {
+        return (int) str_replace(['.', ','], '', $value);
     }
 }
