@@ -10,7 +10,7 @@ use Psr\Http\Message\ResponseInterface;
 use Easy\Wallet\Controllers\AbstractController;
 use Easy\Wallet\Services\UserService;
 
-class AuthenticationController extends AbstractController
+class UpdateController extends AbstractController
 {
     public function __construct(
         protected readonly UserService $service
@@ -19,6 +19,11 @@ class AuthenticationController extends AbstractController
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        return new Response(200, []);
+        $userId = $this->getUserId($request->getServerParams()['REQUEST_URI']);
+        $hydratedData = $this->service->hydrateData($request);
+
+        $res = $this->service->update($hydratedData);
+
+        return new Response($res['code'], body: json_encode($res['data']));
     }
 }

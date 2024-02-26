@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Easy\Wallet\Controllers\User;
 
+use Easy\Wallet\Services\UserService;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Easy\Wallet\Controllers\AbstractController;
-use Easy\Wallet\Services\UserService;
 
-class RegisterController extends AbstractController
+class DeleteController extends AbstractController
 {
     public function __construct(
         protected readonly UserService $service
@@ -19,9 +19,9 @@ class RegisterController extends AbstractController
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $hydratedData = $this->service->hydrateData($request);
+        $userId = $this->getUserId($request->getServerParams()['REQUEST_URI']);
 
-        $res = $this->service->register($hydratedData);
+        $res = $this->service->delete($userId);
 
         return new Response($res['code'], body: json_encode($res['data']));
     }

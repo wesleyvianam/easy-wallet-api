@@ -7,19 +7,19 @@ use Easy\Wallet\Controllers\Transaction\DepositController;
 use Easy\Wallet\Controllers\Transaction\GetBalanceController;
 use Easy\Wallet\Controllers\Transaction\HistoryController;
 use Easy\Wallet\Controllers\Transaction\TransferController;
-use Easy\Wallet\Controllers\User\{AuthenticationController, LogoutController, RegisterController, UpdateController};
+use Easy\Wallet\Controllers\User\{GetUserController, DeleteController, RegisterController, UpdateController};
 
 return [
     // User Management
-    'POST|/login' => AuthenticationController::class,
-    'DELETE|/logout' => LogoutController::class,
-    'POST|/users' => RegisterController::class,
-    'PUT|/users' => UpdateController::class,
+    'POST|/api/users' => RegisterController::class,
+    'GET|/api/user/{id}' => GetUserController::class,
+    'PUT|/api/users/{id}' => UpdateController::class,
+    'DELETE|/api/users/{id}' => DeleteController::class,
 
     // Balance and Transaction
-    'GET|/user/{id}/balance' => GetBalanceController::class,
-    'PUT|/user/{id}/deposit' => DepositController::class,
-    'PUT|/user/{id}/withdraw' => WithdrawController::class,
-    'PUT|/user/{id}/transfer' => TransferController::class,
-    'GET|/user/{id}/transactions' => HistoryController::class,
+    'GET|/api/user/{id}/balance' => GetBalanceController::class,
+    'POST|/api/user/{id}/deposit' => DepositController::class,
+    'POST|/api/user/{id}/withdraw' => WithdrawController::class,
+    'POST|/api/user/{id}/transfer' => TransferController::class,
+    'GET|/api/user/{id}/transactions' => HistoryController::class,
 ];
