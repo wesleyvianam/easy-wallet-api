@@ -18,7 +18,7 @@ class HistoryController extends AbstractController
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $userId = $this->getIdUri($request->getServerParams()['REQUEST_URI']);
+        $userId = $this->getUserId($request->getServerParams()['REQUEST_URI']);
 
         $res = $this->repository->findAllByUser($userId);
 

@@ -8,7 +8,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 abstract class AbstractController implements RequestHandlerInterface
 {
-    protected function getIdUri($uri): int
+    protected function getUserId($uri): int
     {
         preg_match_all(
             '/\d+/',
