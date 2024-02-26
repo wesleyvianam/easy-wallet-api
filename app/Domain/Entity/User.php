@@ -6,7 +6,7 @@ namespace Easy\Wallet\Domain\Entity;
 
 class User
 {
-    private int $id;
+    private int $userId;
 
     public function __construct(
         public readonly string $name,
@@ -20,6 +20,6 @@ class User
 
     public function getId(): int
     {
-        return $this->id;
+        return $this->userId;
     }
 }

@@ -10,10 +10,11 @@ use Psr\Http\Message\ResponseInterface;
 
 class NotFountController extends AbstractController
 {
+    /**
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        return New Response(404, 
-            body: json_encode(['message' => 'Página não encontrada'])
-        );
+        return new Response(404, body: json_encode(['message' => 'Página não encontrada']));
     }
 }

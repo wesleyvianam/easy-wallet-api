@@ -13,9 +13,9 @@ abstract class AbstractController implements RequestHandlerInterface
         preg_match_all(
             '/\d+/',
             $uri,
-            $id
+            $userId
         );
 
-        return (int) $id[0][0];
+        return (int) $userId[0][0];
     }
 }

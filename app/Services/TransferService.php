@@ -50,11 +50,11 @@ class TransferService extends AbstractService
 
         if (true === true) {
             $this->logRegister(
-                from:[
+                userFrom:[
                     'user' => $transfer->userFrom,
                     'value' => $transfer->value,
                 ],
-                to: [
+                userTo: [
                     'user' => $transfer->userTo,
                     'value' => $transfer->value,
                 ],
@@ -65,11 +65,11 @@ class TransferService extends AbstractService
         }
 
         $this->logRegister(
-            from:[
+            userFrom:[
                 'user' => $transfer->userFrom,
                 'value' => $transfer->value,
             ],
-            to: [
+            userTo: [
                 'user' => $transfer->userTo,
                 'value' => $transfer->value,
             ],
@@ -79,17 +79,17 @@ class TransferService extends AbstractService
         return self::response(400, ['message' => 'Não foi possível realizar a transferencia!']);
     }
 
-    private function logRegister(array $from, array $to, bool $success): void
+    private function logRegister(array $userFrom, array $userTo, bool $success): void
     {
         $this->transactionService->register(
-            $from,
+            $userFrom,
             'TRANSFER',
             'EXPENSE',
             $success
         );
 
         $this->transactionService->register(
-            $to,
+            $userTo,
             'TRANSFER',
             'INCOME',
             $success

@@ -4,25 +4,25 @@ namespace Easy\Wallet\Domain\DTO;
 
 class ShowTransactionsDTO
 {
-    public readonly int $id;
+    public readonly int $transactionId;
     public readonly int $userId;
     public readonly string $userName;
     public readonly string $type;
     public readonly string $subtype;
     public readonly string $status;
     public readonly string $value;
-    public readonly string $created_at;
+    public readonly string $createdAt;
 
-    public function __construct($id, $userName, $userId, $type, $subtype, $status, $value, $created_at)
+    public function __construct($transactionId, $userName, $userId, $type, $subtype, $status, $value, $createdAt)
     {
-        $this->id = $id;
+        $this->transactionId = $transactionId;
         $this->userName = $userName;
         $this->userId = $userId;
         $this->type = $this->types($type);
         $this->subtype = $this->subTypes($subtype);
         $this->status = $this->status($status);
         $this->value = $this->monetaryFormat($value);
-        $this->created_at = $created_at;
+        $this->createdAt = $createdAt;
     }
 
     private function types(int $type): string
