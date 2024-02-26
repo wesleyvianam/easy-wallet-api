@@ -13,7 +13,8 @@ class TransferService extends AbstractService
     public function __construct(
         protected readonly UserRepository $userRepository,
         protected readonly BalanceService $balanceService,
-        protected readonly TransactionService $transactionService
+        protected readonly TransactionService $transactionService,
+        protected readonly AuthorizationService $authorization,
     ) {
     }
 
@@ -48,7 +49,7 @@ class TransferService extends AbstractService
             );
         }
 
-        if (true === true) {
+        if ($this->authorization->authorizate()) {
             $this->logRegister(
                 userFrom:[
                     'user' => $transfer->userFrom,
