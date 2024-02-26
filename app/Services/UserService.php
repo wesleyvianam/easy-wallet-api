@@ -3,6 +3,7 @@
 namespace Easy\Wallet\Services;
 
 use Easy\Wallet\Domain\DTO\CreateUserDTO;
+use Easy\Wallet\Domain\Entity\User;
 use Easy\Wallet\Repositories\BalanceRepository;
 use Easy\Wallet\Repositories\UserRepository;
 
@@ -58,14 +59,57 @@ class UserService extends AbstractService
             return self::response('400', ['message' => 'Não foi possível salvar, email em uso']);
         }
 
-        if ($this->repository->register((array) $user)) {
+        $userEntity = new User(
+            $user->name,
+            $user->email,
+            $this->hashPassword($user->email),
+            $user->type,
+            $user->document,
+            $user->phone
+        );
+
+        if ($this->repository->register($userEntity)) {
             return self::response('200', ['message' => 'Novo usuário criado com sucesso']);
         }
 
         return self::response('400', ['message' => 'Não foi possível criar novo usuário']);
     }
 
-    public function update(array $data): array
+    public function update(array $user): array
     {
+        if ($user['email']) {
+            if ($this->repository->isUnique(field: 'email', data: $user['email'])) {
+                return self::response('400', ['message' => 'Não foi possível salvar, email em uso']);
+            }
+        }
+
+        if ($user['document']) {
+            if ($this->repository->isUnique(field: 'email', data: $user['document'])) {
+                return self::response('400', ['message' => 'Não foi possível salvar, email em uso']);
+            }
+        }
+
+        if ($user['password']) {
+            $user['password'] = $this->hashPassword($user['password']);
+        }
+
+        $possibleUpdate = ['name', 'email', 'document', 'phone', 'password'];
+        $update = "";
+        foreach ($user as $key => $data) {
+            if (in_array($data, $possibleUpdate)) {
+                $update .= "{$key} = '{$data}'";
+            }
+        }
+
+        if ($this->repository->update($update, $user['id'])) {
+            return self::response('200', ['message' => 'Usuário atualizado com sucesso']);
+        }
+
+        return self::response('400', ['message' => 'Não foi possível atualizar novo usuário']);
+    }
+
+    public function hashPassword(string $password): string
+    {
+        return password_hash($password, PASSWORD_ARGON2ID);
     }
 }

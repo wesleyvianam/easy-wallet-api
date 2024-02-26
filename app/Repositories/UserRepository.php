@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Easy\Wallet\Repositories;
 
 use Easy\Wallet\Domain\DTO\CreateUserDTO;
+use Easy\Wallet\Domain\Entity\User;
 use PDO;
 
 class UserRepository
@@ -48,21 +49,30 @@ class UserRepository
         return $statement->execute();
     }
 
-    public function register(array $user): bool
+    public function register(User $user): bool
     {
-        $sql = "
+        $sql = <<<SQL
             INSERT INTO users
-            (name, email, password, type, document, active)
+                name, email, password, type, document, active, phone
             VALUES 
-            (:name, :email, :password, :type, :document, :active)
-        ";
+                {$user->name},
+                {$user->email},
+                {$user->password},
+                {$user->type},
+                {$user->document},
+                {$user->active},
+                {$user->phone};
+        SQL;
         $statement = $this->pdo->prepare($sql);
-        $statement->bindParam(':name', $user['name']);
-        $statement->bindValue(':email', $user['email'], PDO::PARAM_STR); // Utilize PDO::PARAM_STR para strings
-        $statement->bindParam(':password', $user['password']);
-        $statement->bindParam(':type', $user['type']);
-        $statement->bindParam(':document', $user['document']);
-        $statement->bindValue(':active', 1, PDO::PARAM_INT); // Por exemplo, valor padrão 1 para ativo
+
+        return $statement->execute();
+    }
+
+    public function update(string $update, int $userId): bool
+    {
+        $sql = "UPDATE users SET {$update} WHERE id = {$userId}";
+
+        $statement = $this->pdo->prepare($sql);
 
         return $statement->execute();
     }
