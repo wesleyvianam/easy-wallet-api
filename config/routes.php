@@ -11,10 +11,10 @@ use Easy\Wallet\Controllers\User\{GetUserController, DeleteController, RegisterC
 
 return [
     // User Management
-    'POST|/api/users' => RegisterController::class,
+    'POST|/api/user' => RegisterController::class,
     'GET|/api/user/{id}' => GetUserController::class,
-    'PUT|/api/users/{id}' => UpdateController::class,
-    'DELETE|/api/users/{id}' => DeleteController::class,
+    'PUT|/api/user/{id}' => UpdateController::class,
+    'DELETE|/api/user/{id}' => DeleteController::class,
 
     // Balance and Transaction
     'GET|/api/user/{id}/balance' => GetBalanceController::class,

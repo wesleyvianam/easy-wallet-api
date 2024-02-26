@@ -16,12 +16,11 @@ class UserRepository
 
     public function isUnique(string $field, string $data): int
     {
-        $sql = "SELECT COUNT({$field}) FROM users WHERE {$field} = {$data}";
-
+        $sql = "SELECT COUNT({$field}) AS quantity FROM users WHERE {$field} = '{$data}'";
         $statement = $this->pdo->prepare($sql);
         $statement->execute();
 
-        return $statement->fetch(\PDO::FETCH_ASSOC);
+        return $statement->fetch(\PDO::FETCH_ASSOC)['quantity'];
     }
 
     public function findById(int $userId): array
@@ -49,20 +48,21 @@ class UserRepository
         return $statement->execute();
     }
 
-    public function register(array $user)
+    public function register(array $user): bool
     {
         $sql = "
             INSERT INTO users
-                (name, email, password, type, document, active = 1)
+            (name, email, password, type, document, active)
             VALUES 
-                (:name, :email, :password, :type, :document)";
-
+            (:name, :email, :password, :type, :document, :active)
+        ";
         $statement = $this->pdo->prepare($sql);
-        $statement->bindParam(':name', $user->type, PDO::PARAM_INT);
-        $statement->bindParam(':email', $user['subType']);
-        $statement->bindParam(':password', $user['userId'], PDO::PARAM_INT);
-        $statement->bindParam(':type', $user['value'], PDO::PARAM_INT);
-        $statement->bindParam(':document', $user['status'], PDO::PARAM_INT);
+        $statement->bindParam(':name', $user['name']);
+        $statement->bindValue(':email', $user['email'], PDO::PARAM_STR); // Utilize PDO::PARAM_STR para strings
+        $statement->bindParam(':password', $user['password']);
+        $statement->bindParam(':type', $user['type']);
+        $statement->bindParam(':document', $user['document']);
+        $statement->bindValue(':active', 1, PDO::PARAM_INT); // Por exemplo, valor padrão 1 para ativo
 
         return $statement->execute();
     }

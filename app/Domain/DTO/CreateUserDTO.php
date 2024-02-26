@@ -9,9 +9,8 @@ readonly class CreateUserDTO
         public string $email,
         public string $password,
         public string $type,
-        public string $active,
         public string $document,
-        public string $phone,
+        public ?string $phone = null,
     ) {
     }
 }

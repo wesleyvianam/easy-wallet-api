@@ -18,7 +18,8 @@ class UserService extends AbstractService
     {
         $user = $this->repository->findById($userId);
         if ($user) {
-            $balance = $this->balanceRepository->findByUserId($userId);
+            $balance = $this->balanceRepository->findByUserId($userId)['value'];
+
             $user['balance'] = $this->toMonetaryNumber((int) $balance);
 
             return self::response('200', $user);
@@ -34,7 +35,7 @@ class UserService extends AbstractService
             return self::response('404', ['message' => 'Usuário não encontrado']);
         }
 
-        $balance = $this->balanceRepository->findByUserId($userId);
+        $balance = $this->balanceRepository->findByUserId($userId)['value'];
 
         if ($balance != 0) {
             return self::response('400', ['message' => 'Não foi possível deletar, usuário possui saldo']);
@@ -57,7 +58,7 @@ class UserService extends AbstractService
             return self::response('400', ['message' => 'Não foi possível salvar, email em uso']);
         }
 
-        if ($this->repository->register($user)) {
+        if ($this->repository->register((array) $user)) {
             return self::response('200', ['message' => 'Novo usuário criado com sucesso']);
         }
 
