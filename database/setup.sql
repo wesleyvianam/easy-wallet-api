@@ -3,12 +3,22 @@ CREATE TABLE users (
     name VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(100) NOT NULL,
+    phone VARCHAR(20) NOT NULL,
     document VARCHAR(25) NOT NULL UNIQUE,
     type ENUM('F', 'J') NOT NULL,
     active TINYINT NOT NULL,
 
     PRIMARY KEY (id)
 );
+
+CREATE TABLE user_tokens (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    user_id BIGINT UNSIGNED NOT NULL,
+    token VARCHAR NOT NULL,
+
+    PRIMARY KEY (id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+)
 
 CREATE TABLE transactions (
     id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
