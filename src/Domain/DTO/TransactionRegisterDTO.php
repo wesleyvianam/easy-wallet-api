@@ -1,23 +1,16 @@
 <?php
 
-namespace Easy\Wallet\Domain\Transaction\DTO;
+namespace Easy\Wallet\Domain\DTO;
 
 class TransactionRegisterDTO
 {
     public function __construct(
         public readonly int $type,
-        public readonly  string $subType,
-        public readonly  int $userId,
-        public readonly  int $walletId,
-        public readonly  int $value,
-        public readonly  int $status,
-        public readonly  ?int $reversedFrom = null,
+        public readonly string $subType,
+        public readonly int $userId,
+        public readonly int $value,
+        public readonly int $status,
     ) {
-    }
-
-    public function getReversedFrom(): ?int
-    {
-        return $this->reversedFrom;
     }
 
     public function getStatus(): int
@@ -43,10 +36,5 @@ class TransactionRegisterDTO
     public function getValue(): int
     {
         return $this->value;
-    }
-
-    public function getWalletId(): int
-    {
-        return $this->walletId;
     }
 }

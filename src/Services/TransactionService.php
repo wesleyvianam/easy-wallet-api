@@ -2,9 +2,8 @@
 
 namespace Easy\Wallet\Services;
 
-use Easy\Wallet\Domain\Transaction\DTO\TransactionRegisterDTO;
+use Easy\Wallet\Domain\DTO\TransactionRegisterDTO;
 use Easy\Wallet\Repositories\TransactionRepository;
-use Easy\Wallet\Repositories\WalletRepository;
 
 class TransactionService extends AbstractService
 {
@@ -13,7 +12,7 @@ class TransactionService extends AbstractService
     ) {
     }
 
-    public function register(array $data, string $type, string $subType, bool $success): void
+    public function register(array $data, string $type, string $subType, bool $success): bool
     {
         $types = [
             'DEPOSIT' => 1,
@@ -23,7 +22,7 @@ class TransactionService extends AbstractService
         ];
 
         $subTypes = [
-            'INCOMES' => 'I',
+            'INCOME' => 'I',
             'EXPENSE' => 'E',
         ];
 
@@ -31,11 +30,10 @@ class TransactionService extends AbstractService
             $types[$type],
             $subTypes[$subType],
             $data['user'],
-            $data['wallet'],
             $data['value'],
             $success,
         );
 
-        $this->repository->register((array) $transaction);
+        return $this->repository->register((array) $transaction);
     }
 }

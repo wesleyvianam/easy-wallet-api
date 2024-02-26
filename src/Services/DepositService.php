@@ -2,56 +2,33 @@
 
 namespace Easy\Wallet\Services;
 
-use Easy\Wallet\Domain\Wallet\DTO\CreateDepositDTO;
-use Easy\Wallet\Repositories\TransactionRepository;
-use Easy\Wallet\Repositories\WalletRepository;
+use Easy\Wallet\Domain\DTO\CreateDepositDTO;
+use Easy\Wallet\Repositories\BalanceRepository;
+use Easy\Wallet\Repositories\UserRepository;
 
 class DepositService extends AbstractService
 {
     public function __construct(
-        protected readonly WalletRepository $repository,
+        protected readonly BalanceRepository $balanceRepository,
+        protected readonly UserRepository $userRepository,
         protected readonly TransactionService $transactionService
     ) {
     }
 
-    public function deposit(CreateDepositDTO $deposit)
+    public function deposit(CreateDepositDTO $deposit): array
     {
-        $wallet = $this->repository->find($deposit->user);
-        if (empty($wallet)) {
-            return [
-                'code' => 404,
-                'message' => 'Usuário não encontrado'
-            ];
+        $user = $this->userRepository->findById($deposit->user);
+
+        if (empty($user)) {
+            return self::response(404, ['message' => 'Usuário não encontrado']);
         }
 
-        $deposit->balance += (int) str_replace(['.', ','], '', $wallet['balance']);
-
-        $deposit->wallet = $wallet['id'];
-
-        if ($this->repository->deposit($deposit)) {
-            $this->transactionService->register(
-                (array) $deposit,
-                'DEPOSIT',
-                'INCOMES',
-                true
-            );
-
-            return [
-                'code' => 200,
-                'message' => "Deposito realizado com sucesso!"
-            ];
+        if ($this->transactionService->register((array) $deposit, 'DEPOSIT', 'INCOME', true)) {
+            return self::response(200, ['message' => 'Deposito realizado com sucesso!']);
         }
 
-        $this->transactionService->register(
-            (array) $deposit,
-            'DEPOSIT',
-            'INCOMES',
-            false
-        );
+        $this->transactionService->register((array) $deposit, 'DEPOSIT', 'INCOME', false);
 
-        return [
-            'code' => 400,
-            'message' => 'Não foi possível realizar o depósito.'
-        ];
+        return self::response(400, ['message' => 'Não foi possível realizar o depósito.']);
     }
 }

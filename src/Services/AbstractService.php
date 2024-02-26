@@ -6,10 +6,10 @@ use Psr\Http\Message\ServerRequestInterface;
 
 abstract class AbstractService
 {
-    public static function exception(int $code, array $data): array
+    public static function response(int $code, array $data): array
     {
         return [
-            'code' => 404,
+            'code' => $code,
             'data' => $data
         ];
     }
@@ -19,14 +19,19 @@ abstract class AbstractService
         $data = json_decode($request->getBody()->getContents(), true);
 
         if (isset($data['value'])) {
-            $data['value'] = $this->monetaryFormat($data['value']);
+            $data['value'] = $this->monetaryToInt($data['value']);
         }
 
         return $data;
     }
 
-    public function monetaryFormat(string $value): int
+    public function monetaryToInt(string $value): int
     {
         return (int) str_replace(['.', ','], '', $value);
+    }
+
+    public function toMonetaryNumber(int $value): string
+    {
+        return number_format($value / 100, 2, ',', '.');
     }
 }

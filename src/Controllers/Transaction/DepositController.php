@@ -1,11 +1,10 @@
 <?php
 
-namespace Easy\Wallet\Controllers\Wallet;
+namespace Easy\Wallet\Controllers\Transaction;
 
 use Easy\Wallet\Controllers\AbstractController;
-use Easy\Wallet\Domain\Wallet\DTO\CreateDepositDTO;
+use Easy\Wallet\Domain\DTO\CreateDepositDTO;
 use Easy\Wallet\Services\DepositService;
-use Easy\Wallet\Services\TransactionService;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -22,10 +21,10 @@ class DepositController extends AbstractController
         $userId = $this->getIdUri($request->getServerParams()['REQUEST_URI']);
         $hydratedData = $this->service->hydrateData($request);
 
-        $deposit = new CreateDepositDTO($userId, $hydratedData['value'], $hydratedData['value'], null);
+        $deposit = new CreateDepositDTO($userId, $hydratedData['value'], $hydratedData['value']);
 
         $res = $this->service->deposit($deposit);
 
-        return new Response($res['code'], body: json_encode(['message' => $res['message']]));
+        return new Response($res['code'], body: json_encode($res['data']));
     }
 }

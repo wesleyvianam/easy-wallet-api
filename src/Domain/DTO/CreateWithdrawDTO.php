@@ -1,14 +1,13 @@
 <?php
 
-namespace Easy\Wallet\Domain\Wallet\DTO;
+namespace Easy\Wallet\Domain\DTO;
 
-class CreateDepositDTO
+class CreateWithdrawDTO
 {
     public function __construct(
         public readonly int $user,
         public int $value,
         public int $balance,
-        public ?int $wallet,
     ) {
     }
 }
