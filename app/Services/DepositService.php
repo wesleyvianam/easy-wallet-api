@@ -3,13 +3,11 @@
 namespace Easy\Wallet\Services;
 
 use Easy\Wallet\Domain\DTO\CreateDepositDTO;
-use Easy\Wallet\Repositories\BalanceRepository;
 use Easy\Wallet\Repositories\UserRepository;
 
 class DepositService extends AbstractService
 {
     public function __construct(
-        protected readonly BalanceRepository $balanceRepository,
         protected readonly UserRepository $userRepository,
         protected readonly TransactionService $transactionService
     ) {
@@ -17,6 +15,10 @@ class DepositService extends AbstractService
 
     public function deposit(CreateDepositDTO $deposit): array
     {
+        if ($deposit->value < 1) {
+            return self::response(400, ['message' => 'Valor precisa ser maior que 0 (zero)']);
+        }
+
         $user = $this->userRepository->findById($deposit->user);
 
         if (empty($user)) {
@@ -24,11 +26,11 @@ class DepositService extends AbstractService
         }
 
         if ($this->transactionService->register((array) $deposit, 'DEPOSIT', 'INCOME', true)) {
-            return self::response(200, ['message' => 'Deposito realizado com sucesso!']);
+            return self::response(200, ['message' => 'Deposito realizado com sucesso']);
         }
 
         $this->transactionService->register((array) $deposit, 'DEPOSIT', 'INCOME', false);
 
-        return self::response(400, ['message' => 'Não foi possível realizar o depósito.']);
+        return self::response(400, ['message' => 'Não foi possível realizar o depósito']);
     }
 }

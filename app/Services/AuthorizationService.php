@@ -4,7 +4,7 @@ namespace Easy\Wallet\Services;
 
 class AuthorizationService extends AbstractService
 {
-    public function authorizate(): bool
+    public function authorize(): bool
     {
         return true;
     }

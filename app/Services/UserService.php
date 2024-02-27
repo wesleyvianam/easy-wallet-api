@@ -4,14 +4,13 @@ namespace Easy\Wallet\Services;
 
 use Easy\Wallet\Domain\DTO\CreateUserDTO;
 use Easy\Wallet\Domain\Entity\User;
-use Easy\Wallet\Repositories\BalanceRepository;
 use Easy\Wallet\Repositories\UserRepository;
 
 class UserService extends AbstractService
 {
     public function __construct(
         protected readonly UserRepository $repository,
-        protected readonly BalanceRepository $balanceRepository
+        protected readonly BalanceService $balanceService
     ) {
     }
 
@@ -19,9 +18,7 @@ class UserService extends AbstractService
     {
         $user = $this->repository->findById($userId);
         if ($user) {
-            $balance = $this->balanceRepository->findByUserId($userId)['value'];
-
-            $user['balance'] = $this->toMonetaryNumber((int) $balance);
+            $user['balance'] = $this->balanceService->getAmount($userId);
 
             return self::response('200', $user);
         }
@@ -36,9 +33,9 @@ class UserService extends AbstractService
             return self::response('404', ['message' => 'Usuário não encontrado']);
         }
 
-        $balance = $this->balanceRepository->findByUserId($userId)['value'];
+        $balance = $this->balanceService->getBalance($userId);
 
-        if ($balance != 0) {
+        if ($balance > 0) {
             return self::response('400', ['message' => 'Não foi possível deletar, usuário possui saldo']);
         }
 
@@ -51,12 +48,12 @@ class UserService extends AbstractService
 
     public function register(CreateUserDTO $user): array
     {
-        if ($this->repository->isUnique(field: 'email', data: $user->email)) {
+        if ($this->repository->existsData(field: 'email', data: $user->email)) {
             return self::response('400', ['message' => 'Não foi possível salvar, email em uso']);
         }
 
-        if ($this->repository->isUnique(field: 'document', data: $user->document)) {
-            return self::response('400', ['message' => 'Não foi possível salvar, email em uso']);
+        if ($this->repository->existsData(field: 'document', data: $user->document)) {
+            return self::response('400', ['message' => 'Não foi possível salvar, documento em uso']);
         }
 
         $userEntity = new User(
@@ -78,13 +75,13 @@ class UserService extends AbstractService
     public function update(array $user): array
     {
         if ($user['email']) {
-            if ($this->repository->isUnique(field: 'email', data: $user['email'])) {
+            if ($this->repository->existsData(field: 'email', data: $user['email'])) {
                 return self::response('400', ['message' => 'Não foi possível salvar, email em uso']);
             }
         }
 
         if ($user['document']) {
-            if ($this->repository->isUnique(field: 'email', data: $user['document'])) {
+            if ($this->repository->existsData(field: 'email', data: $user['document'])) {
                 return self::response('400', ['message' => 'Não foi possível salvar, email em uso']);
             }
         }

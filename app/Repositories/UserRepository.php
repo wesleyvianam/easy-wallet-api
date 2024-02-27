@@ -15,7 +15,7 @@ class UserRepository
     ) {
     }
 
-    public function isUnique(string $field, string $data): int
+    public function existsData(string $field, string $data): int
     {
         $sql = "SELECT COUNT({$field}) AS quantity FROM users WHERE {$field} = '{$data}'";
         $statement = $this->pdo->prepare($sql);

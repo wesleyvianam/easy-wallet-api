@@ -21,7 +21,7 @@ class WithdrawController extends AbstractController
         $userId = $this->getUserId($request->getServerParams()['REQUEST_URI']);
         $hydratedData = $this->service->hydrateData($request);
 
-        $withdraw = new CreateWithdrawDTO($userId, $hydratedData['value'], $hydratedData['value']);
+        $withdraw = new CreateWithdrawDTO($userId, $hydratedData['value']);
 
         $res = $this->service->withdraw($withdraw);
 

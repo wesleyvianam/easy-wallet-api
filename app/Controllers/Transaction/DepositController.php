@@ -21,7 +21,7 @@ class DepositController extends AbstractController
         $userId = $this->getUserId($request->getServerParams()['REQUEST_URI']);
         $hydratedData = $this->service->hydrateData($request);
 
-        $deposit = new CreateDepositDTO($userId, $hydratedData['value'], $hydratedData['value']);
+        $deposit = new CreateDepositDTO($userId, $hydratedData['value']);
 
         $res = $this->service->deposit($deposit);
 

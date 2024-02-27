@@ -3,7 +3,6 @@
 namespace Easy\Wallet\Services;
 
 use Easy\Wallet\Domain\DTO\CreateWithdrawDTO;
-use Easy\Wallet\Repositories\BalanceRepository;
 use Easy\Wallet\Repositories\UserRepository;
 
 class WithdrawService extends AbstractService
@@ -17,24 +16,28 @@ class WithdrawService extends AbstractService
 
     public function withdraw(CreateWithdrawDTO $withdraw): array
     {
+        if ($withdraw->value < 1) {
+            return self::response(400, ['message' => 'Valor precisa ser maior que 0 (zero)']);
+        }
+
         $user = $this->userRepository->findById($withdraw->user);
 
         if (empty($user)) {
             return self::response(404, ['message' => 'Usuário não encontrado']);
         }
 
-        $balance = $this->balanceService->getBalance($user['id']);
+        $balance = $this->balanceService->getBalance($withdraw->user);
 
         if ($balance < $withdraw->value) {
             return self::response(400, ['message' => 'Saldo insuficiente']);
         }
 
         if ($this->transactionService->register((array) $withdraw, 'WITHDRAW', 'EXPENSE', true)) {
-            return self::response(200, ['message' => 'Saque realizado com sucesso!']);
+            return self::response(200, ['message' => 'Saque realizado com sucesso']);
         }
 
         $this->transactionService->register((array) $withdraw, 'WITHDRAW', 'EXPENSE', false);
 
-        return self::response(400, ['message' => 'Não foi possível realizar o saque.']);
+        return self::response(400, ['message' => 'Não foi possível realizar o saque']);
     }
 }

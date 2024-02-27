@@ -2,10 +2,7 @@
 
 namespace Easy\Wallet\Services;
 
-use Easy\Wallet\Domain\DTO\CreateDepositDTO;
 use Easy\Wallet\Domain\DTO\CreateTransferDTO;
-use Easy\Wallet\Domain\DTO\CreateWithdrawDTO;
-use Easy\Wallet\Repositories\BalanceRepository;
 use Easy\Wallet\Repositories\UserRepository;
 
 class TransferService extends AbstractService
@@ -24,6 +21,10 @@ class TransferService extends AbstractService
             return self::response(400, ['message' => 'Não é possível transferir dinheiro para o próprio usuário']);
         }
 
+        if ($transfer->value < 1) {
+            return self::response(400, ['message' => 'Valor precisa ser maior que 0 (zero)']);
+        }
+
         $userFrom = $this->userRepository->findById($transfer->userFrom);
 
         if (empty($userFrom)) {
@@ -34,7 +35,7 @@ class TransferService extends AbstractService
             return self::response(400, ['message' => 'Logista não pode transferir dinheiro']);
         }
 
-        $balance = $this->balanceService->getBalance($userFrom['id']);
+        $balance = $this->balanceService->getBalance($transfer->userFrom);
 
         if ($balance < $transfer->value) {
             return self::response(400, ['message' => 'Saldo insuficiente']);
@@ -49,7 +50,7 @@ class TransferService extends AbstractService
             );
         }
 
-        if ($this->authorization->authorizate()) {
+        if ($this->authorization->authorize()) {
             $this->logRegister(
                 userFrom:[
                     'user' => $transfer->userFrom,
@@ -62,7 +63,7 @@ class TransferService extends AbstractService
                 success: true
             );
 
-            return self::response(200, ['message' => 'Transferência realizada com successo']);
+            return self::response(200, ['message' => 'Transferência autorizada com sucesso']);
         }
 
         $this->logRegister(
@@ -77,7 +78,7 @@ class TransferService extends AbstractService
             success: false
         );
 
-        return self::response(400, ['message' => 'Não foi possível realizar a transferencia!']);
+        return self::response(400, ['message' => 'Transferência não autorizada']);
     }
 
     private function logRegister(array $userFrom, array $userTo, bool $success): void
