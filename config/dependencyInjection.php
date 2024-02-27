@@ -11,10 +11,8 @@ $builder->addDefinitions([
 
         $dsn = "mysql:host=$host;port=$port;dbname=$dbName;charset=utf8";
 
-        // Conexão com o MySQL
         try {
             $pdo = new PDO($dsn, $user, $password);
-            // Configurações adicionais, se necessário
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
