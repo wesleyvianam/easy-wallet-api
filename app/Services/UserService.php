@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Easy\Wallet\Services;
 
-use Easy\Wallet\Domain\DTO\CreateUserDTO;
 use Easy\Wallet\Domain\Entity\User;
+use Easy\Wallet\Domain\DTO\CreateUserDTO;
 use Easy\Wallet\Repositories\UserRepository;
 
 class UserService extends AbstractService

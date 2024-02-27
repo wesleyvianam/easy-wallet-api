@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Easy\Wallet\Services;
 
-use Easy\Wallet\Domain\DTO\CreateTransferDTO;
-use Easy\Wallet\Domain\Enum\TransactionSubtypeEnum;
-use Easy\Wallet\Domain\Enum\TransactionTypeEnum;
 use Easy\Wallet\Repositories\UserRepository;
+use Easy\Wallet\Domain\DTO\CreateTransferDTO;
+use Easy\Wallet\Domain\Enum\TransactionTypeEnum;
+use Easy\Wallet\Domain\Enum\TransactionSubtypeEnum;
 
 class TransferService extends AbstractService
 {

@@ -2,12 +2,20 @@
 
 declare(strict_types=1);
 
-use Easy\Wallet\Controllers\Transaction\{WithdrawController};
-use Easy\Wallet\Controllers\Transaction\DepositController;
-use Easy\Wallet\Controllers\Transaction\GetBalanceController;
-use Easy\Wallet\Controllers\Transaction\HistoryController;
-use Easy\Wallet\Controllers\Transaction\TransferController;
-use Easy\Wallet\Controllers\User\{GetUserController, DeleteController, RegisterController, UpdateController};
+use Easy\Wallet\Controllers\Transaction\{
+    WithdrawController,
+    DepositController,
+    GetBalanceController,
+    HistoryController,
+    TransferController,
+};
+
+use Easy\Wallet\Controllers\User\{
+    GetUserController,
+    DeleteController,
+    RegisterController,
+    UpdateController
+};
 
 return [
     // User Management

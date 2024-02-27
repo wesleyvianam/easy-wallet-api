@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Easy\Wallet\Services;
 
 use Easy\Wallet\Repositories\BalanceRepository;

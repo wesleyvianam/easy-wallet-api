@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Easy\Wallet\Domain\Enum;
 
 enum StatusEnum: int

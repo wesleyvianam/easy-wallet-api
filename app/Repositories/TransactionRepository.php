@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Easy\Wallet\Repositories;
 
 use Easy\Wallet\Domain\DTO\ShowTransactionsDTO;

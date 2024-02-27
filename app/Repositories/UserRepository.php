@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Easy\Wallet\Repositories;
 
-use Easy\Wallet\Domain\DTO\CreateUserDTO;
-use Easy\Wallet\Domain\Entity\User;
 use PDO;
 
 class UserRepository

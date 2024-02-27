@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Easy\Wallet\Controllers\Transaction;
 
 use Easy\Wallet\Controllers\AbstractController;
 use Easy\Wallet\Repositories\TransactionRepository;
-use Easy\Wallet\Repositories\BalanceRepository;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
