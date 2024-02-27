@@ -3,6 +3,8 @@
 namespace Easy\Wallet\Services;
 
 use Easy\Wallet\Domain\DTO\CreateWithdrawDTO;
+use Easy\Wallet\Domain\Enum\TransactionSubtypeEnum;
+use Easy\Wallet\Domain\Enum\TransactionTypeEnum;
 use Easy\Wallet\Repositories\UserRepository;
 
 class WithdrawService extends AbstractService
@@ -32,11 +34,11 @@ class WithdrawService extends AbstractService
             return self::response(400, ['message' => 'Saldo insuficiente']);
         }
 
-        if ($this->transactionService->register((array) $withdraw, 'WITHDRAW', 'EXPENSE', true)) {
+        if ($this->transactionService->register((array) $withdraw, TransactionTypeEnum::WITHDRAW, TransactionSubtypeEnum::EXPENSE, true)) {
             return self::response(200, ['message' => 'Saque realizado com sucesso']);
         }
 
-        $this->transactionService->register((array) $withdraw, 'WITHDRAW', 'EXPENSE', false);
+        $this->transactionService->register((array) $withdraw, TransactionTypeEnum::WITHDRAW, TransactionSubtypeEnum::EXPENSE, false);
 
         return self::response(400, ['message' => 'Não foi possível realizar o saque']);
     }

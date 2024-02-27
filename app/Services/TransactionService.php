@@ -3,6 +3,9 @@
 namespace Easy\Wallet\Services;
 
 use Easy\Wallet\Domain\DTO\TransactionRegisterDTO;
+use Easy\Wallet\Domain\Entity\Transaction;
+use Easy\Wallet\Domain\Enum\TransactionSubtypeEnum;
+use Easy\Wallet\Domain\Enum\TransactionTypeEnum;
 use Easy\Wallet\Repositories\TransactionRepository;
 
 class TransactionService extends AbstractService
@@ -12,23 +15,16 @@ class TransactionService extends AbstractService
     ) {
     }
 
-    public function register(array $data, string $type, string $subType, bool $success): bool
+    public function register(
+        array $data,
+        TransactionTypeEnum $type,
+        TransactionSubtypeEnum $subType,
+        bool $success
+    ): bool
     {
-        $types = [
-            'DEPOSIT' => 1,
-            'WITHDRAW' => 2,
-            'TRANSFER' => 3,
-            'REVERSE' => 4
-        ];
-
-        $subTypes = [
-            'INCOME' => 'I',
-            'EXPENSE' => 'E',
-        ];
-
-        $transaction = new TransactionRegisterDTO(
-            $types[$type],
-            $subTypes[$subType],
+        $transaction = new Transaction(
+            $type,
+            $subType,
             $data['user'],
             $data['value'],
             $success,

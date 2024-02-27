@@ -2,10 +2,10 @@
 
 namespace Easy\Wallet\Domain\DTO;
 
-class CreateWithdrawDTO
+readonly class CreateWithdrawDTO
 {
     public function __construct(
-        public readonly int $user,
+        public int $user,
         public int $value,
     ) {
     }

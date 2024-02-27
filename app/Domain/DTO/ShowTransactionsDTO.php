@@ -2,16 +2,16 @@
 
 namespace Easy\Wallet\Domain\DTO;
 
-class ShowTransactionsDTO
+readonly class ShowTransactionsDTO
 {
-    public readonly int $transactionId;
-    public readonly int $userId;
-    public readonly string $userName;
-    public readonly string $type;
-    public readonly string $subtype;
-    public readonly string $status;
-    public readonly string $value;
-    public readonly string $createdAt;
+    public int $transactionId;
+    public int $userId;
+    public string $userName;
+    public string $type;
+    public string $subtype;
+    public string $status;
+    public string $value;
+    public string $createdAt;
 
     public function __construct($transactionId, $userName, $userId, $type, $subtype, $status, $value, $createdAt)
     {

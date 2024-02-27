@@ -2,11 +2,11 @@
 
 namespace Easy\Wallet\Domain\DTO;
 
-class CreateTransferDTO
+readonly class CreateTransferDTO
 {
     public function __construct(
-        public readonly int $userFrom,
-        public readonly int $userTo,
+        public int $userFrom,
+        public int $userTo,
         public int $value,
     ) {
     }

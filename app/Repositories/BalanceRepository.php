@@ -15,7 +15,7 @@ readonly class BalanceRepository
 
     public function findByUserId(int $userId): array
     {
-        $sql = "
+        $sql = <<<SQL
             SELECT 
                 SUM(IF(sub_type = 'I', `value`, 0)) - SUM(IF(sub_type = 'E', `value`, 0)) AS `value` 
             FROM 
@@ -23,7 +23,7 @@ readonly class BalanceRepository
             WHERE 
                 user_id = ?
                 AND status = 1
-        ";
+        SQL;
         $statement = $this->pdo->prepare($sql);
         $statement->bindValue(1, $userId);
         $statement->execute();

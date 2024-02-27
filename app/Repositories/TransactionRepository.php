@@ -14,15 +14,16 @@ class TransactionRepository
 
     public function register(array $transaction): bool
     {
-        $sql = "
+        $sql = <<<SQL
             INSERT INTO transactions
                 (`type`, sub_type, user_id, `value`, `status`)
             VALUES 
-                (:type, :sub_type, :user_id, :value, :status)";
+                (:type, :sub_type, :user_id, :value, :status)
+        SQL;
 
         $statement = $this->pdo->prepare($sql);
-        $statement->bindParam(':type', $transaction['type'], PDO::PARAM_INT);
-        $statement->bindParam(':sub_type', $transaction['subType']);
+        $statement->bindParam(':type', $transaction['type']->value, PDO::PARAM_INT);
+        $statement->bindParam(':sub_type', $transaction['subType']->value);
         $statement->bindParam(':user_id', $transaction['userId'], PDO::PARAM_INT);
         $statement->bindParam(':value', $transaction['value'], PDO::PARAM_INT);
         $statement->bindParam(':status', $transaction['status'], PDO::PARAM_INT);
@@ -32,7 +33,7 @@ class TransactionRepository
 
     public function findAllByUser(int $userId): array
     {
-        $sql = "
+        $sql = <<<SQL
             SELECT 
                 t.id,
                 t.status,
@@ -47,7 +48,7 @@ class TransactionRepository
                 INNER JOIN users u ON u.id = t.user_id
             WHERE
                 t.user_id = ?
-        ";
+        SQL;
 
         $statement = $this->pdo->prepare($sql);
         $statement->bindParam(1, $userId, PDO::PARAM_INT);

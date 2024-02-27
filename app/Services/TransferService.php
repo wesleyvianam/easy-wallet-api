@@ -3,6 +3,8 @@
 namespace Easy\Wallet\Services;
 
 use Easy\Wallet\Domain\DTO\CreateTransferDTO;
+use Easy\Wallet\Domain\Enum\TransactionSubtypeEnum;
+use Easy\Wallet\Domain\Enum\TransactionTypeEnum;
 use Easy\Wallet\Repositories\UserRepository;
 
 class TransferService extends AbstractService
@@ -85,15 +87,15 @@ class TransferService extends AbstractService
     {
         $this->transactionService->register(
             $userFrom,
-            'TRANSFER',
-            'EXPENSE',
+            TransactionTypeEnum::TRANSFER,
+            TransactionSubtypeEnum::EXPENSE,
             $success
         );
 
         $this->transactionService->register(
             $userTo,
-            'TRANSFER',
-            'INCOME',
+            TransactionTypeEnum::TRANSFER,
+            TransactionSubtypeEnum::INCOME,
             $success
         );
     }

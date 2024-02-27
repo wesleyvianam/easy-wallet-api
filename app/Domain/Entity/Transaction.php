@@ -2,7 +2,17 @@
 
 namespace Easy\Wallet\Domain\Entity;
 
-class Transaction
-{
+use Easy\Wallet\Domain\Enum\TransactionSubtypeEnum;
+use Easy\Wallet\Domain\Enum\TransactionTypeEnum;
 
+readonly class Transaction
+{
+    public function __construct(
+        public TransactionTypeEnum $type,
+        public TransactionSubtypeEnum $subType,
+        public int $userId,
+        public int $value,
+        public int $status,
+    ) {
+    }
 }

@@ -3,6 +3,8 @@
 namespace Easy\Wallet\Services;
 
 use Easy\Wallet\Domain\DTO\CreateDepositDTO;
+use Easy\Wallet\Domain\Enum\TransactionSubtypeEnum;
+use Easy\Wallet\Domain\Enum\TransactionTypeEnum;
 use Easy\Wallet\Repositories\UserRepository;
 
 class DepositService extends AbstractService
@@ -25,11 +27,11 @@ class DepositService extends AbstractService
             return self::response(404, ['message' => 'Usuário não encontrado']);
         }
 
-        if ($this->transactionService->register((array) $deposit, 'DEPOSIT', 'INCOME', true)) {
+        if ($this->transactionService->register((array) $deposit, TransactionTypeEnum::DEPOSIT, TransactionSubtypeEnum::INCOME, true)) {
             return self::response(200, ['message' => 'Deposito realizado com sucesso']);
         }
 
-        $this->transactionService->register((array) $deposit, 'DEPOSIT', 'INCOME', false);
+        $this->transactionService->register((array) $deposit, TransactionTypeEnum::DEPOSIT, TransactionSubtypeEnum::INCOME, false);
 
         return self::response(400, ['message' => 'Não foi possível realizar o depósito']);
     }
