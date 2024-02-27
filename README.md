@@ -10,8 +10,11 @@ O Easy Wallet API é um projeto desenvolvido utilizando PHP 8.2, Docker e MariaD
   - Docker Compose - [documentação](http://localhost:8000) 
 
 ### Passos de Instalação
+Para instalar todas as dependências do projeto.
+```bash
+  composer install
+```
 Rode o comando para subir os containers, e a aplicação sera startada na porta http://localhost:8989/.
-
 ```bash
   docker compose up -d
 ```
