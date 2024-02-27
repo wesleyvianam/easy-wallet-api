@@ -15,5 +15,5 @@ readonly class User
         public string $phone,
         public ?int $active = 1,
     ) {
-}
+    }
 }
