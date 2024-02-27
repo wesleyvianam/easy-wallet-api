@@ -1,5 +1,4 @@
 DROP TABLE IF EXISTS transactions;
-DROP TABLE IF EXISTS user_tokens;
 DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
@@ -14,15 +13,6 @@ CREATE TABLE users (
 
     PRIMARY KEY (id)
 );
-
-CREATE TABLE user_tokens (
-    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    user_id BIGINT UNSIGNED NOT NULL,
-    token VARCHAR NOT NULL,
-
-    PRIMARY KEY (id),
-    FOREIGN KEY (user_id) REFERENCES users(id)
-)
 
 CREATE TABLE transactions (
     id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
