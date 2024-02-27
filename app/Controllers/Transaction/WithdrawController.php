@@ -23,6 +23,13 @@ class WithdrawController extends AbstractController
         $userId = $this->getUserId($request->getServerParams()['REQUEST_URI']);
         $hydratedData = $this->service->hydrateData($request);
 
+        if (false === isset($hydratedData['value'])) {
+            return new Response(
+                422,
+                body: json_encode(['message' => 'Dados esperados não enviados, consulte a documentação.'])
+            );
+        }
+
         $withdraw = new CreateWithdrawDTO($userId, $hydratedData['value']);
 
         $res = $this->service->withdraw($withdraw);

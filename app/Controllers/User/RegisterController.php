@@ -22,16 +22,28 @@ class RegisterController extends AbstractController
     {
         $hydratedData = $this->service->hydrateData($request);
 
-        $res = $this->service->register(
-            new CreateUserDTO(
-                $hydratedData['name'],
-                $hydratedData['email'],
-                $hydratedData['password'],
-                $hydratedData['type'],
-                $hydratedData['document'],
-                $hydratedData['phone'],
-            )
-        );
+        if (
+            false === isset($hydratedData['name']) ||
+            false === isset($hydratedData['email']) ||
+            false === isset($hydratedData['password']) ||
+            false === isset($hydratedData['type']) ||
+            false === isset($hydratedData['document']) ||
+            false === isset($hydratedData['phone'])
+        ) {
+            return new Response(
+                422,
+                body: json_encode(['message' => 'Dados esperados não enviados, consulte a documentação.'])
+            );
+        }
+
+        $res = $this->service->register(new CreateUserDTO(
+            $hydratedData['name'],
+            $hydratedData['email'],
+            $hydratedData['password'],
+            $hydratedData['type'],
+            $hydratedData['document'],
+            $hydratedData['phone']
+        ));
 
         return new Response($res['code'], body: json_encode($res['data']));
     }
