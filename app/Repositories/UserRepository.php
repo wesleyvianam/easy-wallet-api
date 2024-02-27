@@ -49,21 +49,22 @@ class UserRepository
         return $statement->execute();
     }
 
-    public function register(User $user): bool
+    public function register(array $user): bool
     {
         $sql = <<<SQL
-            INSERT INTO users
-                name, email, password, type, document, active, phone
-            VALUES 
-                {$user->name},
-                {$user->email},
-                {$user->password},
-                {$user->type},
-                {$user->document},
-                {$user->active},
-                {$user->phone};
+            INSERT INTO users (name, email, password, type, document, active, phone)
+            VALUES (:name, :email, :password, :type, :document, :active, :phone);
         SQL;
+
         $statement = $this->pdo->prepare($sql);
+
+        $statement->bindParam(':name', $user['name']);
+        $statement->bindParam(':email', $user['email']);
+        $statement->bindParam(':password', $user['password']);
+        $statement->bindParam(':type', $user['type']);
+        $statement->bindParam(':document', $user['document']);
+        $statement->bindParam(':active', $user['active']);
+        $statement->bindParam(':phone', $user['phone']);
 
         return $statement->execute();
     }

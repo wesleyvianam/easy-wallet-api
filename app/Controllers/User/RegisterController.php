@@ -28,7 +28,8 @@ class RegisterController extends AbstractController
                 $hydratedData['email'],
                 $hydratedData['password'],
                 $hydratedData['type'],
-                $hydratedData['document']
+                $hydratedData['document'],
+                $hydratedData['phone'],
             )
         );
 

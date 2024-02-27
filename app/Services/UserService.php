@@ -65,7 +65,7 @@ class UserService extends AbstractService
             $user->phone
         );
 
-        if ($this->repository->register($userEntity)) {
+        if ($this->repository->register((array) $userEntity)) {
             return self::response('200', ['message' => 'Novo usuário criado com sucesso']);
         }
 
