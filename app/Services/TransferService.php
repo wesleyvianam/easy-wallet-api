@@ -8,10 +8,10 @@ use Easy\Wallet\Repositories\UserRepository;
 class TransferService extends AbstractService
 {
     public function __construct(
-        protected readonly UserRepository $userRepository,
-        protected readonly BalanceService $balanceService,
-        protected readonly TransactionService $transactionService,
-        protected readonly AuthorizationService $authorization,
+        protected readonly UserRepository          $userRepository,
+        protected readonly BalanceService          $balanceService,
+        protected readonly TransactionService      $transactionService,
+        protected readonly AuthorizationAPIService $authorization,
     ) {
     }
 

@@ -4,7 +4,7 @@ namespace Unit\Service;
 
 use Easy\Wallet\Domain\DTO\CreateTransferDTO;
 use Easy\Wallet\Repositories\UserRepository;
-use Easy\Wallet\Services\AuthorizationService;
+use Easy\Wallet\Services\AuthorizationAPIService;
 use Easy\Wallet\Services\BalanceService;
 use Easy\Wallet\Services\TransactionService;
 use Easy\Wallet\Services\TransferService;
@@ -20,7 +20,7 @@ class TransferServiceTest extends TestCase
             $this->createMock(UserRepository::class),
             $this->createMock(BalanceService::class),
             $this->createMock(TransactionService::class),
-            $this->createMock(AuthorizationService::class)
+            $this->createMock(AuthorizationAPIService::class)
         );
 
         $result = $transferService->transfer($transfer);
@@ -36,7 +36,7 @@ class TransferServiceTest extends TestCase
             $this->createMock(UserRepository::class),
             $this->createMock(BalanceService::class),
             $this->createMock(TransactionService::class),
-            $this->createMock(AuthorizationService::class)
+            $this->createMock(AuthorizationAPIService::class)
         );
 
         $result = $transferService->transfer($transfer);
@@ -55,7 +55,7 @@ class TransferServiceTest extends TestCase
             $userMock,
             $this->createMock(BalanceService::class),
             $this->createMock(TransactionService::class),
-            $this->createMock(AuthorizationService::class)
+            $this->createMock(AuthorizationAPIService::class)
         );
 
         $result = $transferService->transfer($transfer);
@@ -74,7 +74,7 @@ class TransferServiceTest extends TestCase
             $userMock,
             $this->createMock(BalanceService::class),
             $this->createMock(TransactionService::class),
-            $this->createMock(AuthorizationService::class)
+            $this->createMock(AuthorizationAPIService::class)
         );
 
         $result = $transferService->transfer($transfer);
@@ -96,7 +96,7 @@ class TransferServiceTest extends TestCase
             $userMock,
             $balanceMock,
             $this->createMock(TransactionService::class),
-            $this->createMock(AuthorizationService::class)
+            $this->createMock(AuthorizationAPIService::class)
         );
 
         $result = $transferService->transfer($transfer);
@@ -118,7 +118,7 @@ class TransferServiceTest extends TestCase
             $userMock,
             $balanceMock,
             $this->createMock(TransactionService::class),
-            $this->createMock(AuthorizationService::class)
+            $this->createMock(AuthorizationAPIService::class)
         );
 
         $result = $transferService->transfer($transfer);
@@ -136,7 +136,7 @@ class TransferServiceTest extends TestCase
         $balanceMock = $this->createMock(BalanceService::class);
         $balanceMock->method('getBalance')->willReturn(110000); // "1.100,00"
 
-        $authorizationMock = $this->createMock(AuthorizationService::class);
+        $authorizationMock = $this->createMock(AuthorizationAPIService::class);
         $authorizationMock->method('authorize')->willReturn(false);
 
         $transferService = new TransferService(
@@ -161,7 +161,7 @@ class TransferServiceTest extends TestCase
         $balanceMock = $this->createMock(BalanceService::class);
         $balanceMock->method('getBalance')->willReturn(110000); // "1.100,00"
 
-        $authorizationMock = $this->createMock(AuthorizationService::class);
+        $authorizationMock = $this->createMock(AuthorizationAPIService::class);
         $authorizationMock->method('authorize')->willReturn(true);
 
         $transferService = new TransferService(
