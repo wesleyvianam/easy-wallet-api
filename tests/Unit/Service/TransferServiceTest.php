@@ -131,7 +131,10 @@ class TransferServiceTest extends TestCase
     public function testTransferAuthorizationFailure(CreateTransferDTO $transfer)
     {
         $userMock = $this->createMock(UserRepository::class);
-        $userMock->method('findById')->willReturn(['type' => 'F'], ['type' => 'J']);
+        $userMock->method('findById')->willReturn(
+            ['type' => 'F', 'email' => 'email@gmail.com', 'phone' => '31 9 9999-9999'],
+            ['type' => 'J', 'email' => 'email@gmail.com', 'phone' => '31 9 9999-9999']
+        );
 
         $balanceMock = $this->createMock(BalanceService::class);
         $balanceMock->method('getBalance')->willReturn(110000); // "1.100,00"
@@ -156,7 +159,10 @@ class TransferServiceTest extends TestCase
     public function testTransferAuthorizationSuccess(CreateTransferDTO $transfer)
     {
         $userMock = $this->createMock(UserRepository::class);
-        $userMock->method('findById')->willReturn(['type' => 'F'], ['type' => 'J']);
+        $userMock->method('findById')->willReturn(
+            ['type' => 'F', 'email' => 'email@gmail.com', 'phone' => '31 9 9999-9999'],
+            ['type' => 'J', 'email' => 'email@gmail.com', 'phone' => '31 9 9999-9999']
+        );
 
         $balanceMock = $this->createMock(BalanceService::class);
         $balanceMock->method('getBalance')->willReturn(110000); // "1.100,00"

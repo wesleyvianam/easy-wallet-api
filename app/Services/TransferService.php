@@ -28,7 +28,6 @@ class TransferService extends AbstractService
         }
 
         $userFrom = $this->userRepository->findById($transfer->userFrom);
-
         if (empty($userFrom)) {
             return self::response(404, ['message' => 'Usuário não encontrado']);
         }
@@ -58,13 +57,13 @@ class TransferService extends AbstractService
                     'user' => $transfer->userFrom,
                     'value' => $transfer->value,
                     'email' => $userFrom['email'],
-                    'phone' => $userFrom['value'],
+                    'phone' => $userFrom['phone'],
                 ],
                 userTo: [
                     'user' => $transfer->userTo,
                     'value' => $transfer->value,
                     'email' => $userTo['email'],
-                    'phone' => $userTo['value'],
+                    'phone' => $userTo['phone'],
                 ],
                 success: 1
             );
