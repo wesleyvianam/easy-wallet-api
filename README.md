@@ -20,9 +20,7 @@ Esta comando starta os containers. A aplicação estará disponível na url http
   docker compose up -d
 ```
 
-O banco de dados será criado automaticamente juntos com 4 usuários (2 pessoas, 2 lojas) e algumas transações entre eles.
-
-O sistema não possuí autenticação, então para acessar os dados do usuário específico é só utilizar o **id** do usuário que queira vizualizar ou fazer transações.
+O banco de dados será criado e configurado automaticamente.
 
 ---
 ### Rotas Disponíveis
