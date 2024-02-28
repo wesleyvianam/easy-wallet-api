@@ -1,35 +1,35 @@
 # Easy Wallet
 
 ### Sobre o Projeto
-O Easy Wallet é uma API RESTful PHP desenvolvido sem framework utilizando. O intuito deste projeto é simular uma carteira digital. tecnologias utilizadas:
+O Easy Wallet é uma API RESTful PHP desenvolvido sem framework. O intuito deste projeto é simular uma carteira digital.
+
+Tecnologias utilizadas:
 + PHP 8.2
 + Docker
 + MariaDB
 
 ### Instalação do Projeto
-Pré-requisito
+1 . Pré-requisito
 Para instalação do projeto é necessário ter instalado:
   - [Docker & docker compose]([http://localhost:8000](https://docs.docker.com/get-docker/)) 
 
-Para instalar todas as dependências do projeto.
+2 . Para instalar todas as dependências do projeto.
 ```bash
   composer install
 ```
-Esta comando starta os containers. A aplicação estará disponível na url http://localhost:8080/.
+3 . Este comando starta os containers. A aplicação estará disponível na url http://localhost:8080/.
 ```bash
   docker compose up -d
 ```
 
-O banco de dados será criado automaticamente juntos com 4 usuários (2 pessoas, 2 lojas) e algumas transações entre eles.
-
-O sistema não possuí autenticação, então para acessar os dados do usuário específico é só utilizar o **id** do usuário que queira vizualizar ou fazer transações.
+O banco de dados será criado e configurado automaticamente.
 
 ---
 ### Rotas Disponíveis
 #### Usuário:
 | Tipo   | Caminho        | Descricao                              |
 |--------|----------------|----------------------------------------|
-| POST   | /api/user      | Cria um novo usuário (Pessoa, Logista) |
+| POST   | /api/user      | Cria um novo usuário (Pessoa, Loja) |
 | GET    | /api/user/{id} | Lista os dados do usuário selecionado  |
 | PUT    | /api/user/{id} | Edita usuário selecionado              |
 | DELETE | /api/user/{id} | Deleta usuário selecionado             |
@@ -137,26 +137,26 @@ Response 200
 Response 200
 ```json
 [
-	{
-		"transactionId": 1,
-		"userId": 1,
-		"userName": "Wesley Viana Martins",
-		"type": "DEPOSIT",
-		"subtype": "INCOME",
-		"status": "SUCCESS",
-		"value": "1.000,00",
-		"createdAt": "2024-02-28 07:29:48"
-	},
-	{
-		"transactionId": 5,
-		"userId": 1,
-		"userName": "Wesley Viana Martins",
-		"type": "WITHDRAW",
-		"subtype": "EXPENSE",
-		"status": "SUCCESS",
-		"value": "200,00",
-		"createdAt": "2024-02-28 07:29:48"
-	}
+  {
+     "transactionId": 1,
+    "userId": 1,
+    "userName": "Wesley Viana Martins",
+    "type": "DEPOSIT",
+    "subtype": "INCOME",
+    "status": "SUCCESS",
+    "value": "1.000,00",
+    "createdAt": "2024-02-28 07:29:48"
+  },
+  {
+    "transactionId": 5,
+    "userId": 1,
+    "userName": "Wesley Viana Martins",
+    "type": "WITHDRAW",
+    "subtype": "EXPENSE",
+    "status": "SUCCESS",
+    "value": "200,00",
+    "createdAt": "2024-02-28 07:29:48"
+  }
 ]
 ```
 
@@ -173,7 +173,7 @@ Response 200
 
 #### [POST]: Transferir de um usuário para outro
 ```sh
-/user/1/transfer
+/api/user/{id}/transfer
 ```
 ```json
 {
@@ -190,7 +190,7 @@ Response 200
 
 #### [POST]: Depositar saldo em conta do usuário
 ```sh
-/api/user/1/deposit
+/api/user/{id}/deposit
 ```
 ```json
 {
@@ -206,7 +206,7 @@ Response 200
 
 #### [POST]: Sacar saldo em conta do usuário
 ```sh
-/api/user/1/withdraw
+/api/user/{id}/withdraw
 ```
 ```json
 {
