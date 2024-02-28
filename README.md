@@ -1,25 +1,29 @@
-# Easy Wallet API
+# Easy Wallet
 
-## Sobre o Projeto
-O Easy Wallet API é um projeto desenvolvido utilizando PHP 8.2, Docker e MariaDB. Este projeto simula uma carteira digital.
+### Sobre o Projeto
+O Easy Wallet é uma API RESTful PHP desenvolvido sem framework utilizando. O intuito deste projeto é simular uma carteira digital. tecnologias utilizadas:
++ PHP 8.2
++ Docker
++ MariaDB
 
-## Instalação do Projeto
+### Instalação do Projeto
 
   Para instalação do projeto é necessário ter o **docker** e **docker compose** instalado. 
-  - [Docker](http://localhost:8000) 
-  - [Docker Compose](http://localhost:8000) 
+  - [Docker & docker compose]([http://localhost:8000](https://docs.docker.com/get-docker/)) 
 
 ### Passos de Instalação
 Para instalar todas as dependências do projeto.
 ```bash
   composer install
 ```
-Rode o comando para subir os containers, e a aplicação estará disponível na url http://localhost:8989/.
+Esta comando starta os containers. A aplicação estará disponível na url http://localhost:8080/.
 ```bash
   docker compose up -d
 ```
 
-O banco de dados será criado automaticamente juntos com 4 usuários, (2 pessoas, 2 logistas), algumas transações entre eles.
+O banco de dados será criado automaticamente juntos com 4 usuários (2 pessoas, 2 lojas) e algumas transações entre eles.
+
+O sistema não possuí autenticação, então para acessar os dados do usuário específico é só utilizar o **id** do usuário que queira vizualizar ou fazer transações.
 
 ---
 ## Rotas Disponíveis
@@ -41,7 +45,7 @@ O banco de dados será criado automaticamente juntos com 4 usuários, (2 pessoas
  
 ## Guia de utilização dos endpoints
 
-### Rotina de usuários:
+` Rotina de usuários `
 ---
  
 #### [POST] - Criar Usuário
@@ -127,18 +131,94 @@ Response 200
 }
 ```
 
-### Rotina de Transações:
+` Rotina de Transações `
+---
+#### [GET]: Histórico de transações do usuário
+```sh
+/api/user/{id}/transactions
+```    
+Response 200
+```json
+[
+	{
+		"transactionId": 1,
+		"userId": 1,
+		"userName": "Wesley Viana Martins",
+		"type": "DEPOSIT",
+		"subtype": "INCOME",
+		"status": "SUCCESS",
+		"value": "1.000,00",
+		"createdAt": "2024-02-28 07:29:48"
+	},
+	{
+		"transactionId": 5,
+		"userId": 1,
+		"userName": "Wesley Viana Martins",
+		"type": "WITHDRAW",
+		"subtype": "EXPENSE",
+		"status": "SUCCESS",
+		"value": "200,00",
+		"createdAt": "2024-02-28 07:29:48"
+	}
+]
+```
 
-#### [GET]: /api/user/{id}/transactions
-+ Response 200
+#### [GET]: Saldo do usuário
+```sh
+/api/user/{id}/balance
+```    
+Response 200
+```json
+{
+	"saldo": "520,00"
+}
+```
 
-      { 
-        "data": "....",
-      }
+#### [POST]: Transferir de um usuário para outro
+```sh
+/user/1/transfer
+```
+```json
+{
+	"user_to": 2,
+	"value": "100,00"
+}
+```
+Response 200
+```json
+{
+	"message": "Transferência autorizada com sucesso"
+}
+```
 
-#### [GET]: /api/user/{id}/balance
-+ Response 200
+#### [POST]: Depositar saldo em conta do usuário
+```sh
+/api/user/1/deposit
+```
+```json
+{
+	"value": "1.000,00"
+}
+```
+Response 200
+```json
+{
+	"message": "Deposito realizado com sucesso"
+}
+```
 
-      { 
-        "saldo": "0,00"
-      }
+#### [POST]: Sacar saldo em conta do usuário
+```sh
+/api/user/1/withdraw
+```
+```json
+{
+	"value": "150,80"
+}
+```
+Response 200
+```json
+{
+	"message": "Saque realizado com sucesso"
+}
+```
