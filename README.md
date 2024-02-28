@@ -7,11 +7,10 @@ O Easy Wallet é uma API RESTful PHP desenvolvido sem framework utilizando. O in
 + MariaDB
 
 ### Instalação do Projeto
-
-  Para instalação do projeto é necessário ter o **docker** e **docker compose** instalado. 
+Pré-requisito
+Para instalação do projeto é necessário ter instalado:
   - [Docker & docker compose]([http://localhost:8000](https://docs.docker.com/get-docker/)) 
 
-### Passos de Instalação
 Para instalar todas as dependências do projeto.
 ```bash
   composer install
@@ -26,7 +25,7 @@ O banco de dados será criado automaticamente juntos com 4 usuários (2 pessoas,
 O sistema não possuí autenticação, então para acessar os dados do usuário específico é só utilizar o **id** do usuário que queira vizualizar ou fazer transações.
 
 ---
-## Rotas Disponíveis
+### Rotas Disponíveis
 #### Usuário:
 | Tipo   | Caminho        | Descricao                              |
 |--------|----------------|----------------------------------------|
