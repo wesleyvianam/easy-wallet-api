@@ -33,7 +33,7 @@ class TransactionRepository
         return $statement->execute();
     }
 
-    public function findAllByUser(int $userId): array
+    public function findAllByUser(int $userId): array|null
     {
         $sql = <<<SQL
             SELECT 
@@ -56,32 +56,6 @@ class TransactionRepository
         $statement->bindParam(1, $userId, PDO::PARAM_INT);
         $statement->execute();
 
-        $transactions = $statement->fetchAll(\PDO::FETCH_ASSOC);
-
-        if (empty($transactions)) {
-            return [
-                'code' => 404,
-                'data' => ['message' => 'Usuário não possuí transações.']
-            ];
-        }
-
-        return [
-            'code' => 200,
-            'data' => array_map($this->hydrateHistory(...), $transactions)
-        ];
-    }
-
-    private function hydrateHistory($transaction): ShowTransactionsDTO
-    {
-        return new ShowTransactionsDTO(
-            $transaction['id'],
-            $transaction['user_name'],
-            $transaction['user_id'],
-            $transaction['type'],
-            $transaction['sub_type'],
-            $transaction['status'],
-            $transaction['value'],
-            $transaction['created_at'],
-        );
+        return $statement->fetchAll(\PDO::FETCH_ASSOC);
     }
 }
