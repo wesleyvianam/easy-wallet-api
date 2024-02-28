@@ -20,7 +20,7 @@ class DepositService extends AbstractService
     public function deposit(CreateDepositDTO $deposit): array
     {
         if ($deposit->value < 1) {
-            return self::response(400, ['message' => 'Valor precisa ser maior que 0 (zero)']);
+            return self::response(403, ['message' => 'Valor precisa ser maior que 0 (zero)']);
         }
 
         $user = $this->userRepository->findById($deposit->user);
@@ -29,11 +29,11 @@ class DepositService extends AbstractService
             return self::response(404, ['message' => 'Usuário não encontrado']);
         }
 
-        if ($this->transactionService->register((array) $deposit, TransactionTypeEnum::DEPOSIT, TransactionSubtypeEnum::INCOME, true)) {
+        if ($this->transactionService->register((array) $deposit, 'DEPOSIT', 'INCOME', 1)) {
             return self::response(200, ['message' => 'Deposito realizado com sucesso']);
         }
 
-        $this->transactionService->register((array) $deposit, TransactionTypeEnum::DEPOSIT, TransactionSubtypeEnum::INCOME, false);
+        $this->transactionService->register((array) $deposit, 'DEPOSIT', 'INCOME', 0);
 
         return self::response(400, ['message' => 'Não foi possível realizar o depósito']);
     }

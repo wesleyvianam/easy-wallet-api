@@ -15,6 +15,6 @@ class NotFountController extends AbstractController
      */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        return new Response(404, body: json_encode(['message' => 'Página não encontrada']));
+        return new Response(404, body: json_encode(['message' => 'Rota não encontrada']));
     }
 }

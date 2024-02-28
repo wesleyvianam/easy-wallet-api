@@ -24,8 +24,8 @@ class TransactionRepository
         SQL;
 
         $statement = $this->pdo->prepare($sql);
-        $statement->bindParam(':type', $transaction['type']->value, PDO::PARAM_INT);
-        $statement->bindParam(':sub_type', $transaction['subType']->value);
+        $statement->bindParam(':type', $transaction['type'], PDO::PARAM_INT);
+        $statement->bindParam(':sub_type', $transaction['subType']);
         $statement->bindParam(':user_id', $transaction['userId'], PDO::PARAM_INT);
         $statement->bindParam(':value', $transaction['value'], PDO::PARAM_INT);
         $statement->bindParam(':status', $transaction['status'], PDO::PARAM_INT);
@@ -60,8 +60,8 @@ class TransactionRepository
 
         if (empty($transactions)) {
             return [
-                'code' => 400,
-                'data' => ['message' => 'Não foi possivel localizar o histórico de transações.']
+                'code' => 404,
+                'data' => ['message' => 'Usuário não possuí transações.']
             ];
         }
 

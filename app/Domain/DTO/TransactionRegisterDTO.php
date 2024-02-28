@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Easy\Wallet\Domain\DTO;
 
-readonly class TransactionRegisterDTO
+readonly class  TransactionRegisterDTO
 {
     public function __construct(
         public int $type,

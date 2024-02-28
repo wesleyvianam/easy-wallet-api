@@ -6,8 +6,6 @@ namespace Easy\Wallet\Services;
 
 use Easy\Wallet\Repositories\UserRepository;
 use Easy\Wallet\Domain\DTO\CreateTransferDTO;
-use Easy\Wallet\Domain\Enum\TransactionTypeEnum;
-use Easy\Wallet\Domain\Enum\TransactionSubtypeEnum;
 
 class TransferService extends AbstractService
 {
@@ -22,11 +20,11 @@ class TransferService extends AbstractService
     public function transfer(CreateTransferDTO $transfer): array
     {
         if ($transfer->userTo === $transfer->userFrom) {
-            return self::response(400, ['message' => 'Não é possível transferir dinheiro para o próprio usuário']);
+            return self::response(403, ['message' => 'Não é possível transferir dinheiro para o próprio usuário']);
         }
 
         if ($transfer->value < 1) {
-            return self::response(400, ['message' => 'Valor precisa ser maior que 0 (zero)']);
+            return self::response(403, ['message' => 'Valor precisa ser maior que 0 (zero)']);
         }
 
         $userFrom = $this->userRepository->findById($transfer->userFrom);
@@ -42,7 +40,7 @@ class TransferService extends AbstractService
         $balance = $this->balanceService->getBalance($transfer->userFrom);
 
         if ($balance < $transfer->value) {
-            return self::response(400, ['message' => 'Saldo insuficiente']);
+            return self::response(403, ['message' => 'Saldo insuficiente']);
         }
 
         $userTo = $this->userRepository->findById($transfer->userTo);
@@ -64,7 +62,7 @@ class TransferService extends AbstractService
                     'user' => $transfer->userTo,
                     'value' => $transfer->value,
                 ],
-                success: true
+                success: 1
             );
 
             return self::response(200, ['message' => 'Transferência autorizada com sucesso']);
@@ -79,25 +77,25 @@ class TransferService extends AbstractService
                 'user' => $transfer->userTo,
                 'value' => $transfer->value,
             ],
-            success: false
+            success: 0
         );
 
-        return self::response(400, ['message' => 'Transferência não autorizada']);
+        return self::response(403, ['message' => 'Transferência não autorizada']);
     }
 
-    private function logRegister(array $userFrom, array $userTo, bool $success): void
+    private function logRegister(array $userFrom, array $userTo, int $success): void
     {
         $this->transactionService->register(
             $userFrom,
-            TransactionTypeEnum::TRANSFER,
-            TransactionSubtypeEnum::EXPENSE,
+            'TRANSFER',
+            'EXPENSE',
             $success
         );
 
         $this->transactionService->register(
             $userTo,
-            TransactionTypeEnum::TRANSFER,
-            TransactionSubtypeEnum::INCOME,
+            'TRANSFER',
+            'INCOME',
             $success
         );
     }

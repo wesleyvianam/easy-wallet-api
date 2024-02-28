@@ -15,7 +15,10 @@ class UserRepository
 
     public function existsData(string $field, string $data): int
     {
-        $sql = "SELECT COUNT({$field}) AS quantity FROM users WHERE {$field} = '{$data}'";
+        $sql = <<<SQL
+            SELECT COUNT({$field}) AS quantity FROM users WHERE {$field} = '{$data}'
+        SQL;
+
         $statement = $this->pdo->prepare($sql);
         $statement->execute();
 
@@ -24,7 +27,10 @@ class UserRepository
 
     public function findById(int $userId): array
     {
-        $sql = "SELECT id, name, email, type, active FROM users WHERE id = ?";
+        $sql = <<<SQL
+            SELECT id, name, email, type, document, phone FROM users WHERE id = ? 
+        SQL;
+
         $statement = $this->pdo->prepare($sql);
         $statement->bindValue(1, $userId, PDO::PARAM_INT);
         $statement->execute();
@@ -39,7 +45,9 @@ class UserRepository
 
     public function delete(array $user): bool
     {
-        $sql = "UPDATE users SET active = 0 WHERE id = ?";
+        $sql = <<<SQL
+            UPDATE users SET active = 0 WHERE id = ? 
+        SQL;
 
         $statement = $this->pdo->prepare($sql);
         $statement->bindValue(1, $user['id'], PDO::PARAM_INT);
@@ -47,7 +55,7 @@ class UserRepository
         return $statement->execute();
     }
 
-    public function register(array $user): bool
+    public function register(array $user): bool|string
     {
         $sql = <<<SQL
             INSERT INTO users (name, email, password, type, document, active, phone)
@@ -64,12 +72,20 @@ class UserRepository
         $statement->bindParam(':active', $user['active']);
         $statement->bindParam(':phone', $user['phone']);
 
-        return $statement->execute();
+        $result = $statement->execute();
+
+        if ($result) {
+            return $this->pdo->lastInsertId();
+        }
+
+        return false;
     }
 
     public function update(string $update, int $userId): bool
     {
-        $sql = "UPDATE users SET {$update} WHERE id = {$userId}";
+        $sql = <<<SQL
+            UPDATE users SET {$update} WHERE id = {$userId}
+        SQL;
 
         $statement = $this->pdo->prepare($sql);
 

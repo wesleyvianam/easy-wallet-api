@@ -21,7 +21,7 @@ class WithdrawService extends AbstractService
     public function withdraw(CreateWithdrawDTO $withdraw): array
     {
         if ($withdraw->value < 1) {
-            return self::response(400, ['message' => 'Valor precisa ser maior que 0 (zero)']);
+            return self::response(403, ['message' => 'Valor precisa ser maior que 0 (zero)']);
         }
 
         $user = $this->userRepository->findById($withdraw->user);
@@ -33,14 +33,14 @@ class WithdrawService extends AbstractService
         $balance = $this->balanceService->getBalance($withdraw->user);
 
         if ($balance < $withdraw->value) {
-            return self::response(400, ['message' => 'Saldo insuficiente']);
+            return self::response(403, ['message' => 'Saldo insuficiente']);
         }
 
-        if ($this->transactionService->register((array) $withdraw, TransactionTypeEnum::WITHDRAW, TransactionSubtypeEnum::EXPENSE, true)) {
+        if ($this->transactionService->register((array) $withdraw, 'WITHDRAW', 'EXPENSE', 1)) {
             return self::response(200, ['message' => 'Saque realizado com sucesso']);
         }
 
-        $this->transactionService->register((array) $withdraw, TransactionTypeEnum::WITHDRAW, TransactionSubtypeEnum::EXPENSE, false);
+        $this->transactionService->register((array) $withdraw, 'WITHDRAW', 'EXPENSE', 0);
 
         return self::response(400, ['message' => 'Não foi possível realizar o saque']);
     }

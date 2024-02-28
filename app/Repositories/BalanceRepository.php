@@ -13,7 +13,7 @@ readonly class BalanceRepository
     ) {
     }
 
-    public function findByUserId(int $userId): array
+    public function findByUserId(int $userId): int
     {
         $sql = <<<SQL
             SELECT 
@@ -24,10 +24,17 @@ readonly class BalanceRepository
                 user_id = ?
                 AND status = 1
         SQL;
+
         $statement = $this->pdo->prepare($sql);
         $statement->bindValue(1, $userId);
         $statement->execute();
 
-        return $statement->fetch(\PDO::FETCH_ASSOC);
+        $res = $statement->fetch(\PDO::FETCH_ASSOC);
+
+        if (empty($res['value'])) {
+            return 0;
+        }
+
+        return (int) $res['value'];
     }
 }

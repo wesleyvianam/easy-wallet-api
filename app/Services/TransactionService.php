@@ -16,16 +16,23 @@ class TransactionService extends AbstractService
     ) {
     }
 
-    public function register(
-        array $data,
-        TransactionTypeEnum $type,
-        TransactionSubtypeEnum $subType,
-        bool $success
-    ): bool
+    public function register(array $data, string $type, string $subType, int $success): bool
     {
+        $types = [
+            'DEPOSIT' => 1,
+            'WITHDRAW' => 2,
+            'TRANSFER' => 3,
+            'REVERSE' => 4
+        ];
+
+        $subTypes = [
+            'INCOME' => 'I',
+            'EXPENSE' => 'E',
+        ];
+
         $transaction = new Transaction(
-            $type,
-            $subType,
+            $types[$type],
+            $subTypes[$subType],
             $data['user'],
             $data['value'],
             $success,
