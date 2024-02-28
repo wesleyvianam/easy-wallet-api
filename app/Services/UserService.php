@@ -7,7 +7,7 @@ namespace Easy\Wallet\Services;
 use Easy\Wallet\Domain\DTO\ShowUserDTO;
 use Easy\Wallet\Domain\Entity\User;
 use Easy\Wallet\Domain\DTO\CreateUserDTO;
-use Easy\Wallet\Domain\Enum\UserTypeEnum;
+use Easy\Wallet\Http\ResponseHttp;
 use Easy\Wallet\Repositories\UserRepository;
 
 class UserService extends AbstractService
@@ -18,7 +18,7 @@ class UserService extends AbstractService
     ) {
     }
 
-    public function getUserById(int $userId): ShowUserDTO|array
+    public function getUserById(int $userId): ShowUserDTO|ResponseHttp
     {
         $user = $this->repository->findById($userId);
         if ($user) {
@@ -35,37 +35,37 @@ class UserService extends AbstractService
             );
         }
 
-        return self::response(404, ['message' => 'Usuário não encontrado']);
+        return ResponseHttp::response(404, ['message' => 'Usuário não encontrado']);
     }
 
-    public function delete(int $userId): array
+    public function delete(int $userId): ResponseHttp
     {
         $user = $this->repository->findById($userId);
         if (empty($user)) {
-            return self::response(404, ['message' => 'Usuário não encontrado']);
+            return ResponseHttp::response(404, ['message' => 'Usuário não encontrado']);
         }
 
         $balance = $this->balanceService->getBalance($userId);
 
         if ($balance > 0) {
-            return self::response(400, ['message' => 'Não foi possível deletar, usuário possui saldo']);
+            return ResponseHttp::response(400, ['message' => 'Não foi possível deletar, usuário possui saldo']);
         }
 
         if ($this->repository->delete($user)) {
-            return self::response(200, ['message' => 'Usuário deletado com sucesso']);
+            return ResponseHttp::response(200, ['message' => 'Usuário deletado com sucesso']);
         }
 
-        return self::response(400, ['message' => 'Não foi possível deletar usuário']);
+        return ResponseHttp::response(400, ['message' => 'Não foi possível deletar usuário']);
     }
 
-    public function register(CreateUserDTO $user): array
+    public function register(CreateUserDTO $user): ResponseHttp
     {
         if ($this->repository->existsData(field: 'email', data: $user->email)) {
-            return self::response(409, ['message' => 'Não foi possível salvar, email em uso']);
+            return ResponseHttp::response(409, ['message' => 'Não foi possível salvar, email em uso']);
         }
 
         if ($this->repository->existsData(field: 'document', data: $user->document)) {
-            return self::response(409, ['message' => 'Não foi possível salvar, documento em uso']);
+            return ResponseHttp::response(409, ['message' => 'Não foi possível salvar, documento em uso']);
         }
 
         $userEntity = new User(
@@ -82,23 +82,23 @@ class UserService extends AbstractService
         if ($res) {
             $persistedUser = $this->getUserById((int) $res);
 
-            return self::response(200, ['message' => 'Novo usuário criado com sucesso', 'data' => $persistedUser]);
+            return ResponseHttp::response(200, ['message' => 'Novo usuário criado com sucesso', 'data' => $persistedUser]);
         }
 
-        return self::response(400, ['message' => 'Não foi possível criar novo usuário']);
+        return ResponseHttp::response(400, ['message' => 'Não foi possível criar novo usuário']);
     }
 
-    public function update(array $user): array
+    public function update(array $user): ResponseHttp
     {
         if (isset($user['email'])) {
             if ($this->repository->existsData(field: 'email', data: $user['email'])) {
-                return self::response(409, ['message' => 'Não foi possível salvar, email em uso']);
+                return ResponseHttp::response(409, ['message' => 'Não foi possível salvar, email em uso']);
             }
         }
 
         if (isset($user['document'])) {
             if ($this->repository->existsData(field: 'email', data: $user['document'])) {
-                return self::response(409, ['message' => 'Não foi possível salvar, email em uso']);
+                return ResponseHttp::response(409, ['message' => 'Não foi possível salvar, email em uso']);
             }
         }
 
@@ -119,10 +119,10 @@ class UserService extends AbstractService
         if ($res) {
             $updatedUser = $this->getUserById($user['id']);
 
-            return self::response(200, ['message' => 'Usuário atualizado com sucesso', 'data' => $updatedUser]);
+            return ResponseHttp::response(200, ['message' => 'Usuário atualizado com sucesso', 'data' => $updatedUser]);
         }
 
-        return self::response(400, ['message' => 'Não foi possível atualizar novo usuário']);
+        return ResponseHttp::response(400, ['message' => 'Não foi possível atualizar novo usuário']);
     }
 
     public function hashPassword(string $password): string

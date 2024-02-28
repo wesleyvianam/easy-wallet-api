@@ -20,16 +20,14 @@ class UpdateController extends AbstractController
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $userId = $this->getUserId($request->getServerParams()['REQUEST_URI']);
-        $hydratedData = $this->service->hydrateData($request);
+        $resData = $this->service->hydrateData($request);
 
-        if (empty($hydratedData)) {
-            return new Response(400, body: json_encode(['message' => 'Nenhum dado enviado']));
+        if (is_array($resData) && false === empty($resData)) {
+            $resData['id'] = $userId;
+
+            $resData = $this->service->update($resData);
         }
 
-        $hydratedData['id'] = $userId;
-
-        $res = $this->service->update($hydratedData);
-
-        return new Response($res['code'], body: json_encode($res['data']));
+        return new Response($resData->code, $resData->header, $resData->body);
     }
 }

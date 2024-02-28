@@ -23,10 +23,6 @@ class GetUserController extends AbstractController
 
         $res = $this->service->getUserById($userId);
 
-        if (is_array($res)) {
-            return new Response($res['code'], body: json_encode($res['data']));
-        }
-
-        return new Response(200, body: json_encode(['data' => (array) $res]));
+        return new Response($res->code, $res->header, $res->body);
     }
 }

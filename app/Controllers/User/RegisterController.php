@@ -20,31 +20,15 @@ class RegisterController extends AbstractController
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $hydratedData = $this->service->hydrateData($request);
+        $resData = $this->service->hydrateData(
+            $request,
+            ['name','email','password','type','document','phone']
+        );
 
-        if (
-            false === isset($hydratedData['name']) ||
-            false === isset($hydratedData['email']) ||
-            false === isset($hydratedData['password']) ||
-            false === isset($hydratedData['type']) ||
-            false === isset($hydratedData['document']) ||
-            false === isset($hydratedData['phone'])
-        ) {
-            return new Response(
-                422,
-                body: json_encode(['message' => 'Dados não enviados, consulte a documentação.'])
-            );
+        if (is_array($resData)) {
+            $resData = $this->service->register(new CreateUserDTO(...$resData));
         }
 
-        $res = $this->service->register(new CreateUserDTO(
-            $hydratedData['name'],
-            $hydratedData['email'],
-            $hydratedData['password'],
-            $hydratedData['type'],
-            $hydratedData['document'],
-            $hydratedData['phone']
-        ));
-
-        return new Response($res['code'], body: json_encode($res['data']));
+        return new Response($resData->code, $resData->header, $resData->body);
     }
 }

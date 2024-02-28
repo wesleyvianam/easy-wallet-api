@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Easy\Wallet\Services;
 
+use Easy\Wallet\Http\ResponseHttp;
 use Easy\Wallet\Repositories\UserRepository;
 use Easy\Wallet\Domain\DTO\CreateTransferDTO;
 
@@ -17,35 +18,35 @@ class TransferService extends AbstractService
     ) {
     }
 
-    public function transfer(CreateTransferDTO $transfer): array
+    public function transfer(CreateTransferDTO $transfer): ResponseHttp
     {
         if ($transfer->userTo === $transfer->userFrom) {
-            return self::response(403, ['message' => 'Não é possível transferir dinheiro para o próprio usuário']);
+            return ResponseHttp::response(403, ['message' => 'Não é possível transferir dinheiro para o próprio usuário']);
         }
 
         if ($transfer->value < 1) {
-            return self::response(403, ['message' => 'Valor precisa ser maior que 0 (zero)']);
+            return ResponseHttp::response(403, ['message' => 'Valor precisa ser maior que 0 (zero)']);
         }
 
         $userFrom = $this->userRepository->findById($transfer->userFrom);
         if (empty($userFrom)) {
-            return self::response(404, ['message' => 'Usuário não encontrado']);
+            return ResponseHttp::response(404, ['message' => 'Usuário não encontrado']);
         }
 
         if ($userFrom['type'] === 'J') {
-            return self::response(400, ['message' => 'Logista não pode transferir dinheiro']);
+            return ResponseHttp::response(400, ['message' => 'Logista não pode transferir dinheiro']);
         }
 
         $balance = $this->balanceService->getBalance($transfer->userFrom);
 
         if ($balance < $transfer->value) {
-            return self::response(403, ['message' => 'Saldo insuficiente']);
+            return ResponseHttp::response(403, ['message' => 'Saldo insuficiente']);
         }
 
         $userTo = $this->userRepository->findById($transfer->userTo);
 
         if (empty($userTo)) {
-            return self::response(
+            return ResponseHttp::response(
                 404,
                 ['message' => 'Não foi possível realizar a transferencia, destinatário não existe']
             );
@@ -68,7 +69,7 @@ class TransferService extends AbstractService
                 success: 1
             );
 
-            return self::response(200, ['message' => 'Transferência autorizada com sucesso']);
+            return ResponseHttp::response(200, ['message' => 'Transferência autorizada com sucesso']);
         }
 
         $this->logRegister(
@@ -83,7 +84,7 @@ class TransferService extends AbstractService
             success: 0
         );
 
-        return self::response(403, ['message' => 'Transferência não autorizada']);
+        return ResponseHttp::response(403, ['message' => 'Transferência não autorizada']);
     }
 
     private function logRegister(array $userFrom, array $userTo, int $success): void

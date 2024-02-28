@@ -15,8 +15,16 @@ readonly class ShowTransactionsDTO
     public string $value;
     public string $createdAt;
 
-    public function __construct($transactionId, $userName, $userId, $type, $subtype, $status, $value, $createdAt)
-    {
+    public function __construct(
+        $transactionId,
+        $userName,
+        $userId,
+        $type,
+        $subtype,
+        $status,
+        $value,
+        $createdAt
+    ) {
         $this->transactionId = $transactionId;
         $this->userName = $userName;
         $this->userId = $userId;

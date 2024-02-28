@@ -23,6 +23,6 @@ class GetBalanceController extends AbstractController
 
         $res = $this->service->getAmount($userId);
 
-        return new Response($res['code'], body: json_encode($res['data']));
+        return new Response($res->code, $res->header, $res->body);
     }
 }

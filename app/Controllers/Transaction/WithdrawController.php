@@ -21,19 +21,15 @@ class WithdrawController extends AbstractController
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $userId = $this->getUserId($request->getServerParams()['REQUEST_URI']);
-        $hydratedData = $this->service->hydrateData($request);
 
-        if (false === isset($hydratedData['value'])) {
-            return new Response(
-                422,
-                body: json_encode(['message' => 'Dados não enviados, consulte a documentação.'])
-            );
+        $resData = $this->service->hydrateData($request, ['value']);
+
+        if (is_array($resData)) {
+            $withdraw = new CreateWithdrawDTO($userId, $resData['value']);
+
+            $resData = $this->service->withdraw($withdraw);
         }
 
-        $withdraw = new CreateWithdrawDTO($userId, $hydratedData['value']);
-
-        $res = $this->service->withdraw($withdraw);
-
-        return new Response($res['code'], body: json_encode($res['data']));
+        return new Response($resData->code, $resData->header, $resData->body);
     }
 }

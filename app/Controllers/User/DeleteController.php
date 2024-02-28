@@ -23,6 +23,6 @@ class DeleteController extends AbstractController
 
         $res = $this->service->delete($userId);
 
-        return new Response($res['code'], body: json_encode($res['data']));
+        return new Response($res->code, $res->header, $res->body);
     }
 }

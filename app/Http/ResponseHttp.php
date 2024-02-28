@@ -8,13 +8,20 @@ readonly class ResponseHttp
 {
     public function __construct(
         public int $code,
-        public array $body,
+        public string $body,
         public ?array $header = ['Content-Type' => 'application/json'],
     ) {
     }
 
-    public function body(): string
-    {
-        return json_encode($this->body);
+    public static function response(
+        int $code,
+        array $body,
+        $header = ['Content-Type' => 'application/json']
+    ): self {
+        return new self(
+            code: $code,
+            body: json_encode($body),
+            header: $header
+        );
     }
 }
