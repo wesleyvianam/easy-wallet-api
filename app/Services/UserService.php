@@ -107,14 +107,14 @@ class UserService extends AbstractService
         }
 
         $possibleUpdate = ['name', 'email', 'document', 'phone', 'password'];
-        $update = "";
+        $update = [];
         foreach ($user as $key => $data) {
             if (in_array($key, $possibleUpdate)) {
-                $update .= "{$key} = '{$data}'";
+                $update[] = "{$key} = '{$data}'";
             }
         }
 
-        $res = $this->repository->update($update, $user['id']);
+        $res = $this->repository->update(implode(',', $update), $user['id']);
 
         if ($res) {
             $updatedUser = $this->getUserById($user['id']);

@@ -28,7 +28,7 @@ class UserRepository
     public function findById(int $userId): array
     {
         $sql = <<<SQL
-            SELECT id, name, email, type, document, phone FROM users WHERE id = ? 
+            SELECT id, name, email, type, document, phone, active FROM users WHERE id = ? AND active <> 0 
         SQL;
 
         $statement = $this->pdo->prepare($sql);
