@@ -58,8 +58,8 @@ O sistema não possuí autenticação, então para acessar os dados do usuário 
   "email": "wesley@gmail.com",
   "password": "87654321",
   "type": "F",
-  "cpf": "111.222.333-45",
-  "phone": "(31) 9 9911-9090",
+  "document": "111.222.333-45",
+  "phone": "(31) 9 9911-9090"
 }
 ```
 Response 200
@@ -70,7 +70,7 @@ Response 200
   "email": "wesley@gmail.com",
   "password": "87654321",
   "type": "F",
-  "cpf": "111.222.333-45",
+  "document": "111.222.333-45",
   "phone": "(31) 9 9911-9090",
   "saldo": "0,00"
 }
@@ -85,7 +85,7 @@ Response 200
   "name": "Wesley Viana Martins",
   "email": "wesley@gmail.com",
   "password": "87654321",
-  "cpf": "111.222.333-45",
+  "document": "111.222.333-45",
   "phone": "(31) 9 9911-9090"
 }
 ```
@@ -96,8 +96,7 @@ Response 200
   "name": "Wesley Viana Martins",
   "email": "wesley@gmail.com",
   "password": "87654321",
-  "name": "Wesley Viana Martins",
-  "cpf": "111.222.333-45",
+  "document": "111.222.333-45",
   "phone": "(31) 9 9911-9090",
   "saldo": "0,00"
 }
@@ -113,8 +112,7 @@ Response 200
   "name": "Wesley Viana Martins",
   "email": "wesley@gmail.com",
   "password": "87654321",
-  "name": "Wesley Viana Martins",
-  "cpf": "111.222.333-45",
+  "document": "111.222.333-45",
   "phone": "(31) 9 9911-9090",
   "saldo": "0,00"
 }
@@ -127,7 +125,7 @@ Response 200
 Response 200
 ```json
 {
-  "message": "Usuário deletado com sucesso",
+  "message": "Usuário deletado com sucesso"
 }
 ```
 
@@ -170,7 +168,7 @@ Response 200
 Response 200
 ```json
 {
-	"saldo": "520,00"
+  "saldo": "520,00"
 }
 ```
 
@@ -180,14 +178,14 @@ Response 200
 ```
 ```json
 {
-	"user_to": 2,
-	"value": "100,00"
+  "user_to": 2,
+  "value": "100,00"
 }
 ```
 Response 200
 ```json
 {
-	"message": "Transferência autorizada com sucesso"
+  "message": "Transferência autorizada com sucesso"
 }
 ```
 
@@ -197,13 +195,13 @@ Response 200
 ```
 ```json
 {
-	"value": "1.000,00"
+  "value": "1.000,00"
 }
 ```
 Response 200
 ```json
 {
-	"message": "Deposito realizado com sucesso"
+  "message": "Deposito realizado com sucesso"
 }
 ```
 
@@ -213,12 +211,12 @@ Response 200
 ```
 ```json
 {
-	"value": "150,80"
+  "value": "150,80"
 }
 ```
 Response 200
 ```json
 {
-	"message": "Saque realizado com sucesso"
+  "message": "Saque realizado com sucesso"
 }
 ```
