@@ -8,14 +8,30 @@ use GuzzleHttp\Client;
 
 class SendMessageAPIService extends AbstractService
 {
-    public function sms(string $phone): void
+    public static function sms(string $phone): void
     {
-        $this->send($phone);
+        if ($phone) {
+            $client = new Client();
+
+            $apiUrl = 'https://run.mocky.io/v3/54dc2cf1-3add-45b5-b5a9-6bf7e7f1f4a6';
+
+            $res = $client->get($apiUrl);
+
+            $res->getStatusCode();
+        }
     }
 
-    public function email(string $email): void
+    public static function email(string $email): void
     {
-        $this->send($email);
+        if ($email) {
+            $client = new Client();
+
+            $apiUrl = 'https://run.mocky.io/v3/54dc2cf1-3add-45b5-b5a9-6bf7e7f1f4a6';
+
+            $res = $client->get($apiUrl);
+
+            $res->getStatusCode();
+        }
     }
 
     private function send(string $data): bool

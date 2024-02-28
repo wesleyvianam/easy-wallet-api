@@ -57,10 +57,14 @@ class TransferService extends AbstractService
                 userFrom:[
                     'user' => $transfer->userFrom,
                     'value' => $transfer->value,
+                    'email' => $userFrom['email'],
+                    'phone' => $userFrom['value'],
                 ],
                 userTo: [
                     'user' => $transfer->userTo,
                     'value' => $transfer->value,
+                    'email' => $userTo['email'],
+                    'phone' => $userTo['value'],
                 ],
                 success: 1
             );
@@ -85,18 +89,18 @@ class TransferService extends AbstractService
 
     private function logRegister(array $userFrom, array $userTo, int $success): void
     {
-        $this->transactionService->register(
-            $userFrom,
-            'TRANSFER',
-            'EXPENSE',
-            $success
-        );
+        if ($this->transactionService->register($userFrom, 'TRANSFER', 'EXPENSE', $success)) {
+            if ($success) {
+                SendMessageAPIService::email($userFrom['email']);
+                SendMessageAPIService::sms($userFrom['phone']);
+            }
+        }
 
-        $this->transactionService->register(
-            $userTo,
-            'TRANSFER',
-            'INCOME',
-            $success
-        );
+        if ($this->transactionService->register($userTo, 'TRANSFER', 'INCOME', $success)) {
+            if ($success) {
+                SendMessageAPIService::email($userTo['email']);
+                SendMessageAPIService::sms($userTo['phone']);
+            }
+        }
     }
 }
