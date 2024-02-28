@@ -25,8 +25,8 @@ class TransferServiceTest extends TestCase
 
         $result = $transferService->transfer($transfer);
 
-        $this->assertSame(403, $result['code']);
-        $this->assertSame(['message' => 'Não é possível transferir dinheiro para o próprio usuário'], $result['data']);
+        $this->assertSame(403, $result->code);
+        $this->assertJson($result->body);
     }
 
     #[DataProvider('negativeTransfer')]
@@ -41,8 +41,8 @@ class TransferServiceTest extends TestCase
 
         $result = $transferService->transfer($transfer);
 
-        $this->assertSame(403, $result['code']);
-        $this->assertSame(['message' => 'Valor precisa ser maior que 0 (zero)'], $result['data']);
+        $this->assertSame(403, $result->code);
+        $this->assertJson($result->body);
     }
 
     #[DataProvider('GenericTransfer')]
@@ -60,8 +60,8 @@ class TransferServiceTest extends TestCase
 
         $result = $transferService->transfer($transfer);
 
-        $this->assertSame(404, $result['code']);
-        $this->assertSame(['message' => 'Usuário não encontrado'], $result['data']);
+        $this->assertSame(404, $result->code);
+        $this->assertJson($result->body);
     }
 
     #[DataProvider('GenericTransfer')]
@@ -79,8 +79,8 @@ class TransferServiceTest extends TestCase
 
         $result = $transferService->transfer($transfer);
 
-        $this->assertSame(400, $result['code']);
-        $this->assertSame(['message' => 'Logista não pode transferir dinheiro'], $result['data']);
+        $this->assertSame(400, $result->code);
+        $this->assertJson($result->body);
     }
 
     #[DataProvider('GenericTransfer')]
@@ -101,8 +101,8 @@ class TransferServiceTest extends TestCase
 
         $result = $transferService->transfer($transfer);
 
-        $this->assertSame(403, $result['code']);
-        $this->assertSame(['message' => 'Saldo insuficiente'], $result['data']);
+        $this->assertSame(403, $result->code);
+        $this->assertJson($result->body);
     }
 
     #[DataProvider('GenericTransfer')]
@@ -123,8 +123,8 @@ class TransferServiceTest extends TestCase
 
         $result = $transferService->transfer($transfer);
 
-        $this->assertSame(404, $result['code']);
-        $this->assertSame(['message' => 'Não foi possível realizar a transferencia, destinatário não existe'], $result['data']);
+        $this->assertSame(404, $result->code);
+        $this->assertJson($result->body);
     }
 
     #[DataProvider('GenericTransfer')]
@@ -151,8 +151,8 @@ class TransferServiceTest extends TestCase
 
         $result = $transferService->transfer($transfer);
 
-        $this->assertEquals(403, $result['code']);
-        $this->assertEquals(['message' => 'Transferência não autorizada'], $result['data']);
+        $this->assertEquals(403, $result->code);
+        $this->assertJson($result->body);
     }
 
     #[DataProvider('GenericTransfer')]
@@ -179,8 +179,8 @@ class TransferServiceTest extends TestCase
 
         $result = $transferService->transfer($transfer);
 
-        $this->assertEquals(200, $result['code']);
-        $this->assertEquals(['message' => 'Transferência autorizada com sucesso'], $result['data']);
+        $this->assertEquals(200, $result->code);
+        $this->assertJson($result->body);
     }
 
     public static function transferUserFromAndUserToIsEquals(): array

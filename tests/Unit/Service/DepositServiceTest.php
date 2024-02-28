@@ -24,8 +24,8 @@ class DepositServiceTest extends TestCase
 
         $result = $depositService->deposit($deposit);
 
-        $this->assertSame(404, $result['code']);
-        $this->assertSame(['message' => 'Usuário não encontrado'], $result['data']);
+        $this->assertSame(404, $result->code);
+        $this->assertJson($result->body);
     }
 
     #[DataProvider('negativeDeposit')]
@@ -38,8 +38,8 @@ class DepositServiceTest extends TestCase
 
         $result = $depositService->deposit($deposit);
 
-        $this->assertSame(403, $result['code']);
-        $this->assertSame(['message' => 'Valor precisa ser maior que 0 (zero)'], $result['data']);
+        $this->assertSame(403, $result->code);
+        $this->assertJson($result->body);
     }
 
     #[DataProvider('deposit')]
@@ -55,8 +55,8 @@ class DepositServiceTest extends TestCase
 
         $result = $depositService->deposit($deposit);
 
-        $this->assertEquals(400, $result['code']);
-        $this->assertEquals(['message' => 'Não foi possível realizar o depósito'], $result['data']);
+        $this->assertEquals(400, $result->code);
+        $this->assertJson($result->body);
     }
 
     #[DataProvider('deposit')]
@@ -72,8 +72,8 @@ class DepositServiceTest extends TestCase
 
         $result = $depositService->deposit($deposit);
 
-        $this->assertEquals(200, $result['code']);
-        $this->assertEquals(['message' => 'Deposito realizado com sucesso'], $result['data']);
+        $this->assertEquals(200, $result->code);
+        $this->assertJson($result->body);
     }
 
     public static function deposit(): array

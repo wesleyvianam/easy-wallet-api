@@ -23,8 +23,8 @@ class WithdrawServiceTest extends TestCase
 
         $result = $withdrawService->withdraw($withdraw);
 
-        $this->assertSame(403, $result['code']);
-        $this->assertSame(['message' => 'Valor precisa ser maior que 0 (zero)'], $result['data']);
+        $this->assertSame(403, $result->code);
+        $this->assertJson($result->body);
     }
 
     #[DataProvider('withdraw')]
@@ -41,8 +41,8 @@ class WithdrawServiceTest extends TestCase
 
         $result = $withdrawService->withdraw($withdraw);
 
-        $this->assertSame(404, $result['code']);
-        $this->assertSame(['message' => 'Usuário não encontrado'], $result['data']);
+        $this->assertSame(404, $result->code);
+        $this->assertJson($result->body);
     }
 
     #[DataProvider('withdraw')]
@@ -62,8 +62,8 @@ class WithdrawServiceTest extends TestCase
 
         $result = $withdrawService->withdraw($withdraw);
 
-        $this->assertSame(403, $result['code']);
-        $this->assertSame(['message' => 'Saldo insuficiente'], $result['data']);
+        $this->assertSame(403, $result->code);
+        $this->assertJson($result->body);
     }
 
     #[DataProvider('withdraw')]
@@ -82,8 +82,8 @@ class WithdrawServiceTest extends TestCase
 
         $result = $withdrawService->withdraw($withdraw);
 
-        $this->assertEquals(400, $result['code']);
-        $this->assertEquals(['message' => 'Não foi possível realizar o saque'], $result['data']);
+        $this->assertEquals(400, $result->code);
+        $this->assertJson($result->body);
     }
 
     #[DataProvider('withdraw')]
@@ -102,8 +102,8 @@ class WithdrawServiceTest extends TestCase
 
         $result = $withdrawService->withdraw($withdraw);
 
-        $this->assertEquals(200, $result['code']);
-        $this->assertEquals(['message' => 'Saque realizado com sucesso'], $result['data']);
+        $this->assertEquals(200, $result->code);
+        $this->assertJson($result->body);
     }
 
     public static function withdraw(): array

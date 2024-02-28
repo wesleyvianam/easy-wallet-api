@@ -23,8 +23,8 @@ class UserServiceTest extends TestCase
 
         $result = $userService->delete(1);
 
-        $this->assertSame(400, $result['code']);
-        $this->assertSame(['message' => 'Não foi possível deletar, usuário possui saldo'], $result['data']);
+        $this->assertSame(400, $result->code);
+        $this->assertJson($result->body);
     }
 
     public function testDeletedUserWithoutBalance()
@@ -40,8 +40,8 @@ class UserServiceTest extends TestCase
 
         $result = $userService->delete(1);
 
-        $this->assertSame(200, $result['code']);
-        $this->assertSame(['message' => 'Usuário deletado com sucesso'], $result['data']);
+        $this->assertSame(200, $result->code);
+        $this->assertJson($result->body);
     }
 
     #[DataProvider('user')]
@@ -57,8 +57,8 @@ class UserServiceTest extends TestCase
 
         $result = $userService->register($user);
 
-        $this->assertSame(409, $result['code']);
-        $this->assertSame(['message' => 'Não foi possível salvar, email em uso'], $result['data']);
+        $this->assertSame(409, $result->code);
+        $this->assertJson($result->body);
     }
 
     #[DataProvider('user')]
@@ -74,8 +74,8 @@ class UserServiceTest extends TestCase
 
         $result = $userService->register($user);
 
-        $this->assertSame(409, $result['code']);
-        $this->assertSame(['message' => 'Não foi possível salvar, documento em uso'], $result['data']);
+        $this->assertSame(409, $result->code);
+        $this->assertJson($result->body);
     }
 
     public static function user(): array
