@@ -7,7 +7,7 @@ namespace Easy\Wallet\Domain\DTO;
 readonly class ShowUserDTO
 {
     public function __construct(
-        public int $id,
+        public int $userId,
         public string $name,
         public string $email,
         public string $type,
