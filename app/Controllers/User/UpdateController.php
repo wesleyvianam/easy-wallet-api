@@ -21,6 +21,11 @@ class UpdateController extends AbstractController
     {
         $userId = $this->getUserId($request->getServerParams()['REQUEST_URI']);
         $hydratedData = $this->service->hydrateData($request);
+
+        if (empty($hydratedData)) {
+            return new Response(400, body: json_encode(['message' => 'Nenhum dado enviado']));
+        }
+
         $hydratedData['id'] = $userId;
 
         $res = $this->service->update($hydratedData);

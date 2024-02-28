@@ -26,7 +26,7 @@ class DepositController extends AbstractController
         if (false === isset($hydratedData['value'])) {
             return new Response(
                 422,
-                body: json_encode(['message' => 'Dados esperados não enviados, consulte a documentação.'])
+                body: json_encode(['message' => 'Dados não enviados, consulte a documentação.'])
             );
         }
 

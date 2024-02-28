@@ -32,7 +32,7 @@ class RegisterController extends AbstractController
         ) {
             return new Response(
                 422,
-                body: json_encode(['message' => 'Dados esperados não enviados, consulte a documentação.'])
+                body: json_encode(['message' => 'Dados não enviados, consulte a documentação.'])
             );
         }
 
