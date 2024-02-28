@@ -25,7 +25,7 @@ class TransferServiceTest extends TestCase
 
         $result = $transferService->transfer($transfer);
 
-        $this->assertSame(400, $result['code']);
+        $this->assertSame(403, $result['code']);
         $this->assertSame(['message' => 'Não é possível transferir dinheiro para o próprio usuário'], $result['data']);
     }
 
@@ -41,7 +41,7 @@ class TransferServiceTest extends TestCase
 
         $result = $transferService->transfer($transfer);
 
-        $this->assertSame(400, $result['code']);
+        $this->assertSame(403, $result['code']);
         $this->assertSame(['message' => 'Valor precisa ser maior que 0 (zero)'], $result['data']);
     }
 
@@ -101,7 +101,7 @@ class TransferServiceTest extends TestCase
 
         $result = $transferService->transfer($transfer);
 
-        $this->assertSame(400, $result['code']);
+        $this->assertSame(403, $result['code']);
         $this->assertSame(['message' => 'Saldo insuficiente'], $result['data']);
     }
 
@@ -148,7 +148,7 @@ class TransferServiceTest extends TestCase
 
         $result = $transferService->transfer($transfer);
 
-        $this->assertEquals(400, $result['code']);
+        $this->assertEquals(403, $result['code']);
         $this->assertEquals(['message' => 'Transferência não autorizada'], $result['data']);
     }
 

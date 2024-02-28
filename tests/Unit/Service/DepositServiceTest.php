@@ -38,7 +38,7 @@ class DepositServiceTest extends TestCase
 
         $result = $depositService->deposit($deposit);
 
-        $this->assertSame(400, $result['code']);
+        $this->assertSame(403, $result['code']);
         $this->assertSame(['message' => 'Valor precisa ser maior que 0 (zero)'], $result['data']);
     }
 

@@ -23,7 +23,7 @@ class WithdrawServiceTest extends TestCase
 
         $result = $withdrawService->withdraw($withdraw);
 
-        $this->assertSame(400, $result['code']);
+        $this->assertSame(403, $result['code']);
         $this->assertSame(['message' => 'Valor precisa ser maior que 0 (zero)'], $result['data']);
     }
 
@@ -62,7 +62,7 @@ class WithdrawServiceTest extends TestCase
 
         $result = $withdrawService->withdraw($withdraw);
 
-        $this->assertSame(400, $result['code']);
+        $this->assertSame(403, $result['code']);
         $this->assertSame(['message' => 'Saldo insuficiente'], $result['data']);
     }
 

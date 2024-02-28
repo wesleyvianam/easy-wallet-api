@@ -57,7 +57,7 @@ class UserServiceTest extends TestCase
 
         $result = $userService->register($user);
 
-        $this->assertSame(400, $result['code']);
+        $this->assertSame(409, $result['code']);
         $this->assertSame(['message' => 'Não foi possível salvar, email em uso'], $result['data']);
     }
 
@@ -74,7 +74,7 @@ class UserServiceTest extends TestCase
 
         $result = $userService->register($user);
 
-        $this->assertSame(400, $result['code']);
+        $this->assertSame(409, $result['code']);
         $this->assertSame(['message' => 'Não foi possível salvar, documento em uso'], $result['data']);
     }
 
