@@ -20,14 +20,16 @@ class SendMessageAPIService extends AbstractService
 
     private function send(string $data): bool
     {
-        $client = new Client();
+        if ($data) {
+            $client = new Client();
 
-        $apiUrl = 'https://run.mocky.io/v3/54dc2cf1-3add-45b5-b5a9-6bf7e7f1f4a6';
+            $apiUrl = 'https://run.mocky.io/v3/54dc2cf1-3add-45b5-b5a9-6bf7e7f1f4a6';
 
-        $res = $client->get($apiUrl);
+            $res = $client->get($apiUrl);
 
-        if ($res->getStatusCode() == 200) {
-            return true;
+            if ($res->getStatusCode() == 200) {
+                return true;
+            }
         }
 
         return false;
