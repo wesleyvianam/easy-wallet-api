@@ -1,4 +1,4 @@
-# Easy Wallet API Documentation
+# Easy Wallet API
 
 ## Sobre o Projeto
 O Easy Wallet API é um projeto desenvolvido utilizando PHP 8.2, Docker e MariaDB. Este projeto simula uma carteira digital.
@@ -42,74 +42,90 @@ O banco de dados será criado automaticamente juntos com 4 usuários, (2 pessoas
 ## Guia de utilização dos endpoints
 
 ### Rotina de usuários:
+---
  
-#### [POST]: /api/user - Criar Usuário
-+ Body
-      
-      {
-        "name": "Wesley Viana Martins",
-        "email": "wesley@gmail.com",
-        "password": "87654321",
-        "name": "Wesley Viana Martins",
-        "type": "F", // O tipo precisa ser F ou J
-        "cpf": "11147565635"
-      }
+#### [POST] - Criar Usuário
+```sh
+/api/user
+```      
+```json
+{
+  "name": "Wesley Viana Martins",
+  "email": "wesley@gmail.com",
+  "password": "87654321",
+  "type": "F",
+  "cpf": "111.222.333-45",
+  "phone": "(31) 9 9911-9090",
+}
+```
+Response 200
+```json
+{ 
+  "id": 1,
+  "name": "Wesley Viana Martins",
+  "email": "wesley@gmail.com",
+  "password": "87654321",
+  "type": "F",
+  "cpf": "111.222.333-45",
+  "phone": "(31) 9 9911-9090",
+  "saldo": "0,00"
+}
+```
 
-+ Response 200
-
-      { 
-        "id": 1,
-        "name": "Wesley Viana Martins",
-        "email": "wesley@gmail.com",
-        "password": "87654321",
-        "name": "Wesley Viana Martins",
-        "type": "F", // ou J se for logista
-        "cpf": "11147565635"
-      }
-
-#### [PUT]: /api/user/{id} - Editar Usuário
-+ Body
-
-      {
-        "name": "Wesley Viana Martins",
-        "email": "wesley@gmail.com",
-        "password": "87654321",
-        "name": "Wesley Viana Martins",
-        "cpf": "11147565635"
-      }
-
-+ Response 200
-
-      { 
-        "id": 1,
-        "name": "Wesley Viana Martins",
-        "email": "wesley@gmail.com",
-        "password": "87654321",
-        "name": "Wesley Viana Martins",
-        "type": "F", // ou J se for logista
-        "cpf": "11147565635"
-      }
-
-#### [GET]: /api/user/{id} - Busca Dados do Usuário
-+ Response 200
-
-      { 
-        "id": 1,
-        "name": "Wesley Viana Martins",
-        "email": "wesley@gmail.com",
-        "password": "87654321",
-        "name": "Wesley Viana Martins",
-        "type": "F",
-        "cpf": "11147565635",
-        "saldo": "0,00"
-      }
+#### [PUT]: Editar Usuário
+```sh
+/api/user/{id}
+```    
+```json
+{
+  "name": "Wesley Viana Martins",
+  "email": "wesley@gmail.com",
+  "password": "87654321",
+  "cpf": "111.222.333-45",
+  "phone": "(31) 9 9911-9090"
+}
+```
+Response 200
+```json
+{
+  "id": 1,
+  "name": "Wesley Viana Martins",
+  "email": "wesley@gmail.com",
+  "password": "87654321",
+  "name": "Wesley Viana Martins",
+  "cpf": "111.222.333-45",
+  "phone": "(31) 9 9911-9090",
+  "saldo": "0,00"
+}
+```
+#### [GET]: Busca Dados do Usuário
+```sh
+/api/user/{id}
+```
+Response 200
+```json
+{
+  "id": 1,
+  "name": "Wesley Viana Martins",
+  "email": "wesley@gmail.com",
+  "password": "87654321",
+  "name": "Wesley Viana Martins",
+  "cpf": "111.222.333-45",
+  "phone": "(31) 9 9911-9090",
+  "saldo": "0,00"
+}
+```
 
 #### [DELETE]: /api/user/{id} - Deleta Usuário
-+ Response 200
-
-      { 
-        "message": "Usuário deletado com sucesso",
-      }
+```sh
+/api/user/{id}
+```    
+Response 200
+```json
+{
+  "message": "Usuário deletado com sucesso",
+}
+```
 
 ### Rotina de Transações:
 
