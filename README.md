@@ -137,26 +137,26 @@ Response 200
 Response 200
 ```json
 [
-	{
-		"transactionId": 1,
-		"userId": 1,
-		"userName": "Wesley Viana Martins",
-		"type": "DEPOSIT",
-		"subtype": "INCOME",
-		"status": "SUCCESS",
-		"value": "1.000,00",
-		"createdAt": "2024-02-28 07:29:48"
-	},
-	{
-		"transactionId": 5,
-		"userId": 1,
-		"userName": "Wesley Viana Martins",
-		"type": "WITHDRAW",
-		"subtype": "EXPENSE",
-		"status": "SUCCESS",
-		"value": "200,00",
-		"createdAt": "2024-02-28 07:29:48"
-	}
+  {
+     "transactionId": 1,
+    "userId": 1,
+    "userName": "Wesley Viana Martins",
+    "type": "DEPOSIT",
+    "subtype": "INCOME",
+    "status": "SUCCESS",
+    "value": "1.000,00",
+    "createdAt": "2024-02-28 07:29:48"
+  },
+  {
+    "transactionId": 5,
+    "userId": 1,
+    "userName": "Wesley Viana Martins",
+    "type": "WITHDRAW",
+    "subtype": "EXPENSE",
+    "status": "SUCCESS",
+    "value": "200,00",
+    "createdAt": "2024-02-28 07:29:48"
+  }
 ]
 ```
 
