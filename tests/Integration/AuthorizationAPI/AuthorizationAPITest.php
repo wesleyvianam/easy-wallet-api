@@ -2,9 +2,9 @@
 
 namespace Integration\AuthorizationAPI;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\RequestException;
 use PHPUnit\Framework\TestCase;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Client;
 
 class AuthorizationAPITest extends TestCase
 {
@@ -17,5 +17,6 @@ class AuthorizationAPITest extends TestCase
         $response = $client->get($apiUrl);
 
         $this->assertEquals(200, $response->getStatusCode());
+        $this->assertJsonStringEqualsJsonString('{"message": "Autorizado"}', $response->getBody()->getContents());
     }
 }

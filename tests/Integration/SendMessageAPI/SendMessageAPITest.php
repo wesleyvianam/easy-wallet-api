@@ -17,5 +17,6 @@ class SendMessageAPITest extends TestCase
         $response = $client->get($apiUrl);
 
         $this->assertEquals(200, $response->getStatusCode());
+        $this->assertJsonStringEqualsJsonString('{"message": true}', $response->getBody()->getContents());
     }
 }
