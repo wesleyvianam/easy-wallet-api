@@ -1,39 +1,37 @@
 # Easy Wallet
-
-### Sobre o Projeto
 O Easy Wallet é uma API RESTful PHP desenvolvido sem framework. O intuito deste projeto é simular uma carteira digital.
 
-Tecnologias utilizadas:
+## Tecnologias
 + PHP 8.2
 + Docker
 + MariaDB
 
-### Instalação do Projeto
-1 . Pré-requisito
-Para instalação do projeto é necessário ter instalado:
-  - [Docker & docker compose]([http://localhost:8000](https://docs.docker.com/get-docker/)) 
+## Dependências
+- [Docker & docker compose](https://docs.docker.com/get-docker/)
 
-2 . Para instalar todas as dependências do projeto.
+## Configuração
 ```bash
-  composer install
-```
-3 . Este comando starta os containers. A aplicação estará disponível na url http://localhost:8080/.
-```bash
-  docker compose up -d
+docker compose up -d --build
 ```
 
-O banco de dados será criado e configurado automaticamente.
+## Executar testes
+```sh
+docker exec easy-app composer test
+```
+## Endpoints
 
----
-### Rotas Disponíveis
-#### Usuário:
+### Resumo
+--- 
+
+#### Usuário
 | Tipo   | Caminho        | Descricao                              |
 |--------|----------------|----------------------------------------|
-| POST   | /api/user      | Cria um novo usuário (Pessoa, Loja) |
-| GET    | /api/user/{id} | Lista os dados do usuário selecionado  |
+| POST   | /api/user      | Cria um novo usuário (Pessoa, Loja)    |
+| GET    | /api/user/{id} | Retorna os dados de um usuário         |
 | PUT    | /api/user/{id} | Edita usuário selecionado              |
 | DELETE | /api/user/{id} | Deleta usuário selecionado             |
-#### Transações:
+
+#### Transações
 | Tipo | Caminho                     | Descricao                             |
 |------|-----------------------------|---------------------------------------|
 | GET  | /api/user/{id}/balance      | Retorna o saldo atual do usuário      |
@@ -41,16 +39,18 @@ O banco de dados será criado e configurado automaticamente.
 | POST | /api/user/{id}/transfer     | Realiza transferêcia entre 2 usuários |
 | POST | /api/user/{id}/deposit      | Deposita saldo em conta do usuário    |
 | POST | /api/user/{id}/withdraw     | Saca o saldo da conta do usuário      | 
- 
-## Guia de utilização dos endpoints
 
-` Rotina de usuários `
+### Exemplos
 ---
- 
-#### [POST] - Criar Usuário
+
+#### Usuários
+
+##### [POST]: Criar Usuário
 ```sh
-/api/user
+http://localhost:8080/api/user
 ```      
+
+Body
 ```json
 {
   "name": "Wesley Viana Martins",
@@ -60,8 +60,9 @@ O banco de dados será criado e configurado automaticamente.
   "document": "111.222.333-45",
   "phone": "(31) 9 9911-9090"
 }
+
 ```
-Response 200
+Response [200]
 ```json
 { 
   "id": 1,
@@ -75,10 +76,29 @@ Response 200
 }
 ```
 
-#### [PUT]: Editar Usuário
+##### [GET]: Dados de um Usuário
 ```sh
-/api/user/{id}
+http://localhost:8080/api/user/{id}
+```
+Response [200]
+```json
+{
+  "id": 1,
+  "name": "Wesley Viana Martins",
+  "email": "wesley@gmail.com",
+  "password": "87654321",
+  "document": "111.222.333-45",
+  "phone": "(31) 9 9911-9090",
+  "saldo": "0,00"
+}
+```
+
+##### [PUT]: Editar Usuário
+```sh
+http://localhost:8080/api/user/{id}
 ```    
+
+Body
 ```json
 {
   "name": "Wesley Viana Martins",
@@ -88,23 +108,7 @@ Response 200
   "phone": "(31) 9 9911-9090"
 }
 ```
-Response 200
-```json
-{
-  "id": 1,
-  "name": "Wesley Viana Martins",
-  "email": "wesley@gmail.com",
-  "password": "87654321",
-  "document": "111.222.333-45",
-  "phone": "(31) 9 9911-9090",
-  "saldo": "0,00"
-}
-```
-#### [GET]: Busca Dados do Usuário
-```sh
-/api/user/{id}
-```
-Response 200
+Response [200]
 ```json
 {
   "id": 1,
@@ -117,24 +121,36 @@ Response 200
 }
 ```
 
-#### [DELETE]: /api/user/{id} - Deleta Usuário
+##### [DELETE]: /api/user/{id} - Deleta Usuário
 ```sh
-/api/user/{id}
+http://localhost:8080/api/user/{id}
 ```    
-Response 200
+Response [200]
 ```json
 {
   "message": "Usuário deletado com sucesso"
 }
 ```
 
-` Rotina de Transações `
+#### Transações
 ---
-#### [GET]: Histórico de transações do usuário
+##### [GET]: Saldo do usuário
 ```sh
-/api/user/{id}/transactions
+http://localhost:8080/api/user/{id}/balance
 ```    
-Response 200
+
+Response [200]
+```json
+{
+  "saldo": "520,00"
+}
+```
+
+##### [GET]: Histórico de transações do usuário
+```sh
+http://localhost:8080/api/user/{id}/transactions
+```    
+Response [200]
 ```json
 [
   {
@@ -160,60 +176,59 @@ Response 200
 ]
 ```
 
-#### [GET]: Saldo do usuário
+
+##### [POST]: Transferir de um usuário para outro
 ```sh
-/api/user/{id}/balance
-```    
-Response 200
-```json
-{
-  "saldo": "520,00"
-}
+http://localhost:8080/api/user/{id}/transfer
 ```
 
-#### [POST]: Transferir de um usuário para outro
-```sh
-/api/user/{id}/transfer
-```
+Body
 ```json
 {
   "user_to": 2,
   "value": "100,00"
 }
 ```
-Response 200
+
+Response [200]
 ```json
 {
   "message": "Transferência autorizada com sucesso"
 }
 ```
 
-#### [POST]: Depositar saldo em conta do usuário
+##### [POST]: Adicionar saldo na conta de um usuário
 ```sh
-/api/user/{id}/deposit
+http://localhost:8080/api/user/{id}/deposit
 ```
+
+Body
 ```json
 {
   "value": "1.000,00"
 }
 ```
-Response 200
+
+Response [200]
 ```json
 {
   "message": "Deposito realizado com sucesso"
 }
 ```
 
-#### [POST]: Sacar saldo em conta do usuário
+##### [POST]: Sacar saldo em conta do usuário
 ```sh
-/api/user/{id}/withdraw
+http://localhost:8080/api/user/{id}/withdraw
 ```
+
+Body
 ```json
 {
   "value": "150,80"
 }
 ```
-Response 200
+
+Response [200]
 ```json
 {
   "message": "Saque realizado com sucesso"
