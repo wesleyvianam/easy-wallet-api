@@ -26,11 +26,7 @@ class BalanceService extends AbstractService
 
         $balance = $this->repository->findByUserId($userId);
 
-        if ($balance) {
-            return ResponseHttp::response(200, ['saldo' => $this->toMonetaryNumber($balance)]);
-        }
-
-        return ResponseHttp::response(400, ['message' => 'Não foi possível encontrar saldo']);
+        return ResponseHttp::response(200, ['saldo' => $this->toMonetaryNumber($balance)]);
     }
 
     public function getBalance(int $userId): int
