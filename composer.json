@@ -5,6 +5,9 @@
       "Easy\\Wallet\\": "app/"
     }
   },
+  "scripts": {
+    "test": "phpunit"
+  },
   "require": {
     "vlucas/phpdotenv": "^5.5",
     "php": ">8.2",
