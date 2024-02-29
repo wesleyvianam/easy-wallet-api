@@ -23,5 +23,6 @@ CREATE TABLE transactions (
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 
     PRIMARY KEY (id),
+    INDEX idx_user_id (user_id),
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
